@@ -57,8 +57,8 @@ class GameJolt
 	/**
 	 * Returns a user's data.
 	 * 
-	 * @param The username of the user whose data you'd like to fetch.
-	 * @param User_ID The ID of the user whose data you'd like to fetch.
+	 * @param The username of the user you'd like to fetch the data from.
+	 * @param User_ID The ID of the user you'd like to fetch the data from.
 	 * @param CallBack A callback with the returned json data.
 	 */
 	public static function fetchUser(UserName:String, User_ID:String, ?CallBack:Dynamic):Void
@@ -246,7 +246,7 @@ class GameJolt
 	}
 
 	/**
-	 * Returns one trophy or multiple trophies, depending on the parameters passed in.
+	 * Returns one or multiple trophies, depending on the parameters passed in.
 	 * 
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
@@ -413,7 +413,7 @@ class GameJolt
 	}
 
 	/**
-	 * Returns the list of a user's friends.
+	 * Returns a list of friends of a user.
 	 * 
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
