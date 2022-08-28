@@ -7,7 +7,7 @@ A full integration of GameJolt to Haxe.
 * JSON Data Format.
 * And many more!
 
-Feel free to use it for whatever you want but credit me if you do that, thnak you.
+Feel free to use it for whatever you want but credit me if you do that, thank you.
 
 # Exemple
 
