@@ -1,0 +1,16 @@
+{
+	"name":"Haxe-GameJolt-Integration",
+	"url":"https://github.com/MAJigsaw77/Haxe-GameJolt-Integration",
+	"license":"MIT",
+	"tags":[
+		"haxe",
+		"flash",
+		"gamejolt"
+	],
+	"description":"A full integration of GameJolt to Haxe.",
+	"version":"1.0.0",
+	"releasenote":"First Release",
+	"contributors":[
+		"MAJigsaw77"
+	],
+}
