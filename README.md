@@ -2,7 +2,7 @@
 
 A full integration of GameJolt to Haxe.
 
-# Futures
+# Features
 * Latest API version.
 * JSON Data Format.
 * And many more!
@@ -33,8 +33,8 @@ GameJolt.authUser('user name', 'user token', function(json:Dynamic)
 });
 ```
 
-This will display users avatar as a bitmap :)
+This will display the users avatar as a bitmap :)
 
 # Credit
-* [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator if this library.
+* [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator of this library.
 * The Contributors!
