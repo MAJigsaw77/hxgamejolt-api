@@ -9,5 +9,32 @@ A full integration of GameJolt to Haxe.
 
 Feel free to use it for whatever you want but credit me if you do that, thnak you.
 
+# Exemple
+
+```haxe
+GameJolt.connect('game id', 'private key');
+GameJolt.authUser('user name', 'user token', function(json:Dynamic)
+{
+	GameJolt.fetchUser('user name', null, function(json:Dynamic)
+	{
+		if (json.response != null)
+		{
+			if (json.response.success == 'true')
+			{
+				var http = new haxe.Http(json.response.users[0].avatar_url);
+				http.onBytes = function(bytes:Bytes)
+				{
+					addChild(new Bitmap(BitmapData.fromBytes(bytes)));
+				}
+				http.request();
+			}
+		}
+	});
+});
+```
+
+This will display users avatar as a bitmap :)
+
 # Credit
-* [M.A. Jigsaw](https://github.com/MAJigsaw77) - Coder of this.
+* [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator if this library.
+* The Contributors!
