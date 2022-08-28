@@ -57,7 +57,7 @@ class GameJolt
 	/**
 	 * Returns a user's data.
 	 * 
-	 * @param The username of the user you'd like to fetch the data from.
+	 * @param UserName username of the user you'd like to fetch the data from.
 	 * @param User_ID The ID of the user you'd like to fetch the data from.
 	 * @param CallBack A callback with the returned json data.
 	 */
