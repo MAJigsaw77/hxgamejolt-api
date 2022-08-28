@@ -35,6 +35,6 @@ GameJolt.authUser('user name', 'user token', function(json:Dynamic)
 
 This will display the user avatar as a bitmap :)
 
-# Credit
+# Credits
 * [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator of this library.
 * The Contributors!
