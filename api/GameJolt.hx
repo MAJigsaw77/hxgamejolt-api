@@ -1,4 +1,4 @@
-package gamejolt;
+package api;
 
 import flash.events.Event;
 import flash.events.IOErrorEvent;
