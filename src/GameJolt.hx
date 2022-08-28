@@ -468,7 +468,7 @@ class GameJolt
 
 	//////////////////////////////////////////////////////
 
-	private static function postData(URL:String, ?CallBack:Dynamic, EncodeURL:Bool = false):Void
+	private static function postData(URL:String, CallBack:Dynamic, EncodeURL:Bool = false):Void
 	{
 		var page:String = URL + '&signature=' + Md5.encode(URL + private_key);
 
