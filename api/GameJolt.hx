@@ -24,7 +24,7 @@ class GameJolt
 	private static var game_id:String;
 	private static var private_key:String;
 
-	private static var init(get, never):Bool;
+	private static var initialized(get, never):Bool;
 
 	//////////////////////////////////////////////////////
 
@@ -32,7 +32,7 @@ class GameJolt
 	 * @param Game_id The ID of your game.
 	 * @param Private_key The private key of your game.
 	 */
-	public static function connect(Game_id:String, Private_key:String):Void
+	public static function init(Game_id:String, Private_key:String):Void
 	{
 		game_id = Game_id;
 		private_key = Private_key;
@@ -48,7 +48,7 @@ class GameJolt
 	 */
 	public static function authUser(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/users/auth/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
@@ -63,7 +63,7 @@ class GameJolt
 	 */
 	public static function fetchUser(UserName:String, User_ID:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/users/' + DATA_FORMAT + '&game_id=' + game_id;
@@ -86,7 +86,7 @@ class GameJolt
 	 */
 	public static function openSessions(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/sessions/open/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
@@ -104,7 +104,7 @@ class GameJolt
 	 */
 	public static function pingSessions(UserName:String, User_Token:String, ?Status:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/sessions/ping/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token;
@@ -125,7 +125,7 @@ class GameJolt
 	 */
 	public static function checkSessions(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/sessions/check/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
@@ -140,7 +140,7 @@ class GameJolt
 	 */
 	public static function closeSessions(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/sessions/close/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
@@ -160,7 +160,7 @@ class GameJolt
 	 */
 	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Float, ?Extra_data:String, ?Table_id:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/scores/add/' + DATA_FORMAT + '&game_id=' + game_id;
@@ -189,7 +189,7 @@ class GameJolt
 	 */
 	public static function getScoreRank(Sort:Float, ?Table_id:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/scores/get-rank/' + DATA_FORMAT + '&game_id=' + game_id + '&sort=' + Sort + '&table_id=' + Table_id, CallBack, false);
@@ -209,7 +209,7 @@ class GameJolt
 	 */
 	public static function fetchScore(?Limit:Float, ?Table_id:Float, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Float, ?Worse_than:Float, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/scores/' + DATA_FORMAT + '&game_id=' + game_id;
@@ -239,7 +239,7 @@ class GameJolt
 	 */
 	public static function scoreTables(?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/scores/tables/' + DATA_FORMAT + '&game_id=' + game_id, CallBack, false);
@@ -256,7 +256,7 @@ class GameJolt
 	 */
 	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Bool, ?Trophy_ID:Float = 0, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/trophies/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token;
@@ -279,7 +279,7 @@ class GameJolt
 	 */
 	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Float, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/trophies/add-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, CallBack, false);
@@ -295,7 +295,7 @@ class GameJolt
 	 */
 	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Float, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/trophies/remove-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, CallBack, false);
@@ -311,7 +311,7 @@ class GameJolt
 	 */
 	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key;
@@ -332,7 +332,7 @@ class GameJolt
 	 */
 	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/get-keys/' + DATA_FORMAT + '&game_id=' + game_id;
@@ -356,7 +356,7 @@ class GameJolt
 	 */
 	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/remove/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key;
@@ -378,7 +378,7 @@ class GameJolt
 	 */
 	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/set/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key + '&data=' + Data;
@@ -401,7 +401,7 @@ class GameJolt
 	 */
 	public static function updateDataFromDataStore(Key:String, Operation:String, Value:Dynamic, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/update/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key + '&operation=' + Operation + '&value=' + Value;
@@ -421,7 +421,7 @@ class GameJolt
 	 */
 	public static function fetchFriends(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
@@ -434,7 +434,7 @@ class GameJolt
 	 */
 	public static function fetchTime(?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id, CallBack, false);
@@ -450,7 +450,7 @@ class GameJolt
 	 */
 	public static function batchRequest(?Parallel:Bool, ?Break_On_Error:Bool, Requests:Array<String>, ?CallBack:Dynamic):Void
 	{
-		if (!init)
+		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/batch/' + DATA_FORMAT + '&game_id=' + game_id;
@@ -500,7 +500,7 @@ class GameJolt
 		loader.load(request);
 	}
 
-	static function get_init():Bool
+	static function get_initialized():Bool
 	{
 		if (game_id != null && private_key != null)
 			return true;
