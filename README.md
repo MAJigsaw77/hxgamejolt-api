@@ -10,7 +10,7 @@ A full integration of GameJolt to Haxe.
 ## Install
 `haxelib git gamejolt-integration https://github.com/MAJigsaw77/Haxe-GameJolt-Integration`
 
-## Exemple
+## Example
 
 ```haxe
 package;
