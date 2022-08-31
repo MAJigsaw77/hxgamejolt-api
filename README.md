@@ -23,7 +23,7 @@ class Main extends Sprite
 	{
 		super();
 
-		GameJolt.connect('game id', 'private key');
+		GameJolt.init('game id', 'private key');
 		GameJolt.authUser('user name', 'user token', function(json:Dynamic)
 		{
 			GameJolt.fetchUser('user name', null, function(json:Dynamic)
