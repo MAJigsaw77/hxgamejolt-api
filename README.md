@@ -7,6 +7,9 @@ A full integration of GameJolt to Haxe.
 * JSON Data Format.
 * And many more!
 
+# Install
+`haxelib git gamejolt-integration https://github.com/MAJigsaw77/Haxe-GameJolt-Integration`
+
 # Exemple
 
 ```haxe
