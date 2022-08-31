@@ -13,6 +13,8 @@ A full integration of GameJolt to Haxe.
 ## Exemple
 
 ```haxe
+package;
+
 import api.GameJolt;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
