@@ -1,15 +1,15 @@
-# Haxe-GameJolt-Integration
+### Haxe-GameJolt-Integration
 
 A full integration of GameJolt to Haxe.
 
-## Features
+### Features
 * Latest API version.
 * JSON Data Format.
 * And many more!
 
-## Installation
+### Installation
 
-1. Do this command `haxelib git gamejolt-integration https://github.com/MAJigsaw77/Haxe-GameJolt-Integration`  on a Command prompt/PowerShell.
+1. Do this command `haxelib git gamejolt-integration https://github.com/MAJigsaw77/Haxe-GameJolt-Integration` on Command prompt/PowerShell.
 
 2. Add it to `Project.xml` like this.
 
@@ -17,7 +17,7 @@ A full integration of GameJolt to Haxe.
 <haxelib name="gamejolt-integration" />
 ```
 
-## Example
+### Example
 
 ```haxe
 package;
@@ -60,6 +60,6 @@ class Main extends Sprite
 
 This will display the user avatar as a bitmap :)
 
-## Credits
+### Credits
 * [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator of this library.
 * The Contributors!
