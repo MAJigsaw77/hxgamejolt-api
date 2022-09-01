@@ -1,4 +1,4 @@
-## Haxe-GameJolt-Integration
+# Haxe-GameJolt-Integration
 
 A full integration of GameJolt to Haxe.
 
@@ -7,8 +7,15 @@ A full integration of GameJolt to Haxe.
 * JSON Data Format.
 * And many more!
 
-## Install
-`haxelib git gamejolt-integration https://github.com/MAJigsaw77/Haxe-GameJolt-Integration`
+## Installation
+
+1. Do this command `haxelib git gamejolt-integration https://github.com/MAJigsaw77/Haxe-GameJolt-Integration`  on a Command prompt/PowerShell.
+
+2. Add it to `Project.xml` like this.
+
+```xml
+<haxelib name="gamejolt-integration" />
+```
 
 ## Example
 
