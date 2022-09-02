@@ -1,6 +1,6 @@
 ### Haxe-GameJolt-Integration
 
-A full integration of GameJolt to Haxe.
+A full integration of GameJolt to Haxe using Flash.
 
 ### Features
 * Latest API version.
@@ -17,46 +17,23 @@ A full integration of GameJolt to Haxe.
 <haxelib name="gamejolt-integration" />
 ```
 
-### Example
+### Basic Functons
 
 ```haxe
-package;
+import api.GameJolt; // be sure you import this.
 
-import api.GameJolt;
-import flash.display.Bitmap;
-import flash.display.BitmapData;
-import flash.display.Sprite;
-import haxe.Http;
-import haxe.io.Bytes;
-
-class Main extends Sprite
+GameJolt.init('game id', 'private key');
+GameJolt.authUser('user name', 'user token', function(json:Dynamic)
 {
-	static function main()
-	{
-		GameJolt.init('game id', 'private key');
-		GameJolt.authUser('user name', 'user token', function(json:Dynamic)
-		{
-			GameJolt.fetchUser('user name', null, function(json:Dynamic)
-			{
-				if (json.response != null)
-				{
-					if (json.response.success == 'true')
-					{
-						var http:Http = new Http(json.response.users[0].avatar_url);
-						http.onBytes = function(bytes:Bytes)
-						{
-							addChild(new Bitmap(BitmapData.fromBytes(bytes)));
-						}
-						http.request();
-					}
-				}
-			});
-		});
-	}
-}
-```
+	// your code
+});
+GameJolt.fetchUser('user name', null, function(json:Dynamic)
+{
+	// your code
+});
 
-This will display the user avatar as a bitmap :)
+// there are more function then those, check the source!
+```
 
 ### Credits
 * [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator of this library.
