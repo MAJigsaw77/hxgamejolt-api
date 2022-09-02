@@ -31,10 +31,8 @@ import haxe.io.Bytes;
 
 class Main extends Sprite
 {
-	public function new()
+	static function main()
 	{
-		super();
-
 		GameJolt.init('game id', 'private key');
 		GameJolt.authUser('user name', 'user token', function(json:Dynamic)
 		{
