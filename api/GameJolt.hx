@@ -254,14 +254,14 @@ class GameJolt
 	 * @param Trophy_id If you would like to return just one trophy, you may pass the trophy ID with this parameter. If you do, only that trophy will be returned in the response. You may also pass multiple trophy IDs here if you want to return a subset of all the trophies. You do this as a comma-separated list in the same way you would for retrieving multiple users. Passing a `Trophy_ID` will ignore the `Achieved` parameter if it is passed.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Bool, ?Trophy_ID:Float = 0, ?CallBack:Dynamic):Void
+	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Float = 0, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/trophies/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token;
 
-		if (Achieved == true || Achieved == false)
+		if (Achieved != null)
 			page += '&achieved=' + Achieved;
 		else if (Trophy_ID > 0)
 			page += '&trophy_id=' + Trophy_ID;
@@ -448,7 +448,7 @@ class GameJolt
 	 * @param Requests An array of sub-request URLs. Each request will be executed and the responses of each one will be returned in the payload. You must URL-encode each sub-request.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function batchRequest(?Parallel:Bool, ?Break_On_Error:Bool, Requests:Array<String>, ?CallBack:Dynamic):Void
+	public static function batchRequest(?Parallel:Null<Bool>, ?Break_On_Error:Null<Bool>, Requests:Array<String>, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -458,9 +458,9 @@ class GameJolt
 		for (i in Requests)
 			page += '&requests[]=' + Requests;
 
-		if (Parallel == true || Parallel == false)
+		if (Parallel != null)
 			page += '&parallel=' + Parallel;
-		else if (Break_On_Error == true || Break_On_Error == false)
+		else if (Break_On_Error != null)
 			page += '&break_on_error=' + Break_On_Error;
 
 		postData(page, CallBack, true);
