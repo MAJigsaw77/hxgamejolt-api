@@ -483,18 +483,23 @@ class GameJolt
 		{
 			if (Std.string((cast e.currentTarget).data) == '' && CallBack != null)
 			{
-				trace('you broke the url? XD');
+				trace('[ERROR] - No Data on the URL!');
 				CallBack(null);
+			}
+			else if (CallBack == null)
+			{
+				trace('[COMPLETE] - Data was sended successfully from the URL!');
+				trace('[WARNING] - The Callback is null!');
 			}
 			else if (CallBack != null)
 			{
-				trace(Std.string((cast e.currentTarget).data));
+				trace('[COMPLETE] - Data was sended successfully from the URL! Casting to the callback...');
 				CallBack(Json.parse(Std.string((cast e.currentTarget).data)));
 			}
 		});
 		loader.addEventListener(IOErrorEvent.IO_ERROR, function(e:Event)
 		{
-			trace('error');
+			trace('[ERROR] - ' + e);
 			CallBack(null);
 		});
 		loader.load(request);
