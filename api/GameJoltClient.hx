@@ -13,7 +13,7 @@ import haxe.crypto.Md5;
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
 
-class GameJolt
+class GameJoltClient
 {
 	//////////////////////////////////////////////////////
 
@@ -504,6 +504,8 @@ class GameJolt
 		});
 		loader.load(request);
 	}
+
+	//////////////////////////////////////////////////////
 
 	static function get_initialized():Bool
 	{
