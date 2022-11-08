@@ -8,7 +8,7 @@ import haxe.Json;
 import haxe.crypto.Md5;
 
 /**
- * Game API Documentation: https://gamejolt.com/game-api/doc
+ * GameJolt API Documentation: https://gamejolt.com/game-api/doc
  * 
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
