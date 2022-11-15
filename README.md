@@ -20,19 +20,19 @@ A full integration of GameJolt to Haxe using Flash.
 ### Basic Functons
 
 ```haxe
-import api.GameJolt; // be sure you import this.
+import api.GameJoltClient; // be sure you import this.
 
-GameJolt.init('game id', 'private key');
-GameJolt.authUser('user name', 'user token', function(json:Dynamic)
+GameJoltClient.init('game id', 'private key');
+GameJoltClient.authUser('user name', 'user token', function(json:Dynamic)
 {
 	// your code
 });
-GameJolt.fetchUser('user name', null, function(json:Dynamic)
+GameJoltClient.fetchUser('user name', null, function(json:Dynamic)
 {
 	// your code
 });
 
-// there are more function then those, check the source!
+// there are more function then those, check the source if you want!
 ```
 
 ### Credits
