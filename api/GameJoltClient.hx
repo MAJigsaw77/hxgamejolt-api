@@ -5,11 +5,10 @@ import haxe.Json;
 import haxe.crypto.Md5;
 
 /**
- * GameJolt API Documentation: https://gamejolt.com/game-api/doc
+ * @see https://gamejolt.com/game-api/doc
  * 
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
-
 class GameJoltClient
 {
 	//////////////////////////////////////////////////////
