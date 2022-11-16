@@ -5,6 +5,7 @@ A full integration of GameJolt to Haxe using Flash.
 ### Features
 * Latest API version.
 * JSON Data Format.
+* MD5 URL Encoding.
 * And many more!
 
 ### Installation
