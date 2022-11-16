@@ -1,9 +1,6 @@
 package api;
 
-import flash.events.Event;
-import flash.events.IOErrorEvent;
-import flash.net.URLLoader;
-import flash.net.URLRequest;
+import have.Http;
 import haxe.Json;
 import haxe.crypto.Md5;
 
@@ -475,34 +472,23 @@ class GameJoltClient
 		if (EncodeURL)
 			page = StringTools.urlEncode(page);
 
-		var request:URLRequest = new URLRequest(page);
-		request.method = 'POST';
+		var http:Http = new Http(page);
+		http.onData = function(data:String)
+		{
+			var daRawJson:Dynamic = Json.parse(data);
 
-		var loader:URLLoader = new URLLoader();
-		loader.addEventListener(Event.COMPLETE, function(e:Event)
-		{
-			if (Std.string((cast e.currentTarget).data) == '' && CallBack != null)
-			{
-				trace('[ERROR] - No Data on the URL!');
-				CallBack(null);
-			}
-			else if (CallBack == null)
-			{
-				trace('[COMPLETE] - Data was sended successfully from the URL!');
+			trace('[COMPLETE] - Data was sended successfully from the API! Casting to the callback...');
+			if (CallBack != null)
+				CallBack(daRawJson);
+			else
 				trace('[WARNING] - The Callback is null!');
-			}
-			else if (CallBack != null)
-			{
-				trace('[COMPLETE] - Data was sended successfully from the URL! Casting to the callback...');
-				CallBack(Json.parse(Std.string((cast e.currentTarget).data)));
-			}
-		});
-		loader.addEventListener(IOErrorEvent.IO_ERROR, function(e:Event)
+		}
+		http.onError = function(msg:String)
 		{
-			trace('[ERROR] - ' + e);
+			trace('[ERROR] - $msg');
 			CallBack(null);
-		});
-		loader.load(request);
+		}
+		http.request();
 	}
 
 	//////////////////////////////////////////////////////
