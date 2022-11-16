@@ -33,7 +33,7 @@ GameJoltClient.fetchUser('user name', null, function(json:Dynamic)
 	// your code
 });
 
-// there are more function then those, check the source if you want!
+// there are more function then those, check the source if you want.
 ```
 
 ### Credits
