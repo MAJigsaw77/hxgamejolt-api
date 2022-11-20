@@ -476,27 +476,23 @@ class GameJoltClient
 
 	private static function postData(URL:String, CallBack:Dynamic, EncodeURL:Bool = false):Void
 	{
-		var page:String = URL;
-
 		switch (encoding)
 		{
 			case MD5:
-				page = page + '&signature=' + Md5.encode(URL + private_key);
+				URL = URL + '&signature=' + Md5.encode(URL + private_key);
 			case SHA1:
-				page = page + '&signature=' + Sha1.encode(URL + private_key);
+				URL = URL + '&signature=' + Sha1.encode(URL + private_key);
 		}
 
 		if (EncodeURL)
-			page = StringTools.urlEncode(page);
+			page = StringTools.urlEncode(URL);
 
 		var http:Http = new Http(page);
 		http.onData = function(data:String)
 		{
-			var daRawJson:Dynamic = Json.parse(data);
-
 			trace('[COMPLETE] - Data was sended successfully from the API! Casting to the callback...');
 			if (CallBack != null)
-				CallBack(daRawJson);
+				CallBack(Json.parse(data));
 			else
 				trace('[WARNING] - The Callback is null!');
 		}
