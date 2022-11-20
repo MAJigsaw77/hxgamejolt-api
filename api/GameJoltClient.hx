@@ -1,14 +1,22 @@
-package api;
-
-import have.Http;
-import haxe.Json;
-import haxe.crypto.Md5;
-
 /**
  * @see https://gamejolt.com/game-api/doc
  * 
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
+
+package api;
+
+import have.Http;
+import haxe.Json;
+import haxe.crypto.Md5;
+import haxe.crypto.Sha1;
+
+enum Encoding
+{
+	MD5;
+	SHA1;
+}
+
 class GameJoltClient
 {
 	//////////////////////////////////////////////////////
@@ -21,6 +29,8 @@ class GameJoltClient
 	private static var private_key:String;
 
 	private static var initialized(get, never):Bool;
+
+	public static var encoding:Encoding = MD5;
 
 	//////////////////////////////////////////////////////
 
@@ -466,7 +476,15 @@ class GameJoltClient
 
 	private static function postData(URL:String, CallBack:Dynamic, EncodeURL:Bool = false):Void
 	{
-		var page:String = URL + '&signature=' + Md5.encode(URL + private_key);
+		var page:String = URL;
+
+		switch (encoding)
+		{
+			case MD5:
+				page = page + '&signature=' + Md5.encode(URL + private_key);
+			case SHA1:
+				page = page + '&signature=' + Sha1.encode(URL + private_key);
+		}
 
 		if (EncodeURL)
 			page = StringTools.urlEncode(page);
@@ -494,7 +512,7 @@ class GameJoltClient
 
 	static function get_initialized():Bool
 	{
-		if (game_id != null && private_key != null)
+		if ((game_id != null && game_id != '') && (private_key != null && private_key != ''))
 			return true;
 
 		return false;
