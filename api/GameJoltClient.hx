@@ -461,8 +461,8 @@ class GameJoltClient
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/batch/' + DATA_FORMAT + '&game_id=' + game_id;
 
-		for (i in Requests)
-			page += '&requests[]=' + Requests;
+		for (request in Requests)
+			page += '&requests[]=' + request;
 
 		if (Parallel != null)
 			page += '&parallel=' + Parallel;
@@ -479,9 +479,9 @@ class GameJoltClient
 		switch (encoding)
 		{
 			case MD5:
-				URL = URL + '&signature=' + Md5.encode(URL + private_key);
+				URL += '&signature=' + Md5.encode(URL + private_key);
 			case SHA1:
-				URL = URL + '&signature=' + Sha1.encode(URL + private_key);
+				URL += '&signature=' + Sha1.encode(URL + private_key);
 		}
 
 		if (EncodeURL)
