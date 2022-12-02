@@ -1,9 +1,3 @@
-/**
- * @see https://gamejolt.com/game-api/doc
- * 
- * @author Mihai Alexandru (M.A. Jigsaw)
- */
-
 package api;
 
 import have.Http;
@@ -17,6 +11,11 @@ enum Encoding
 	SHA1;
 }
 
+/**
+ * @see https://gamejolt.com/game-api/doc
+ * 
+ * @author Mihai Alexandru (M.A. Jigsaw)
+ */
 class GameJoltClient
 {
 	//////////////////////////////////////////////////////
