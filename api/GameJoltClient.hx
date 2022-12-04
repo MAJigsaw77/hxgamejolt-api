@@ -1,6 +1,6 @@
 package api;
 
-import have.Http;
+import haxe.Http;
 import haxe.Json;
 import haxe.crypto.Md5;
 import haxe.crypto.Sha1;
