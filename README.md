@@ -1,6 +1,6 @@
 ### Haxe-GameJolt-Integration
 
-A full integration of GameJolt to Haxe using Flash.
+A full integration of GameJolt to Haxe.
 
 ### Features
 * Latest API version.
