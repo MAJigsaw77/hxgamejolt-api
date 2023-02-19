@@ -5,6 +5,8 @@ import haxe.Json;
 import haxe.crypto.Md5;
 import haxe.crypto.Sha1;
 
+abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
+
 enum Encoding
 {
 	MD5;
@@ -66,7 +68,7 @@ class GameJoltClient
 	 * @param User_ID The ID of the user you'd like to fetch the data from.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchUser(UserName:String, User_ID:String, ?CallBack:Dynamic):Void
+	public static function fetchUser(UserName:String, User_ID:Int, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -160,10 +162,10 @@ class GameJoltClient
 	 * @param Score This is a string value associated with the score. Example: 500 Points
 	 * @param Sort This is a numerical sorting value associated with the score. All sorting will be based on this number. Example: 500
 	 * @param Extra_data If there's any extra data you would like to store as a string, you can use this variable.
-	 * @param Table_id The ID of the score table to submit to.
+	 * @param Table_ID The ID of the score table to submit to.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Float, ?Extra_data:String, ?Table_id:String, ?CallBack:Dynamic):Void
+	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_data:String, ?Table_ID:Int, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -179,8 +181,8 @@ class GameJoltClient
 
 		if (Extra_data != null)
 			page += '&extra_data=' + Extra_data;
-		if (Table_id != null)
-			page += '&table_id=' + Table_id;
+		if (Table_ID != null)
+			page += '&table_id=' + Table_ID;
 
 		postData(page, CallBack, false);
 	}
@@ -189,22 +191,22 @@ class GameJoltClient
 	 * Returns the rank of a particular score on a score table.
 	 * 
 	 * @param Sort This is a numerical sorting value that is represented by a rank on the score table.
-	 * @param Table_id The ID of the score table from which you want to get the rank.
+	 * @param Table_ID The ID of the score table from which you want to get the rank.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function getScoreRank(Sort:Float, ?Table_id:String, ?CallBack:Dynamic):Void
+	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/scores/get-rank/' + DATA_FORMAT + '&game_id=' + game_id + '&sort=' + Sort + '&table_id=' + Table_id, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/scores/get-rank/' + DATA_FORMAT + '&game_id=' + game_id + '&sort=' + Sort + '&table_id=' + Table_ID, CallBack, false);
 	}
 
 	/**
 	 * Returns a list of scores either for a user or globally for a game.
 	 * 
 	 * @param Limit The number of scores you'd like to return.
-	 * @param Table_id The ID of the score table.
+	 * @param Table_ID The ID of the score table.
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 * @param Guest The guest's name.
@@ -212,7 +214,7 @@ class GameJoltClient
 	 * @param Worse_than Fetch only scores worse than this score sort value.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchScore(?Limit:Float, ?Table_id:Float, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Float, ?Worse_than:Float, ?CallBack:Dynamic):Void
+	public static function fetchScore(?Limit:Int, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -221,8 +223,8 @@ class GameJoltClient
 
 		if (Limit != null)
 			page += '&limit=' + Limit;
-		if (Table_id != null)
-			page += '&table_id=' + Table_id;
+		if (Table_ID != null)
+			page += '&table_id=' + Table_ID;
 
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
@@ -259,7 +261,7 @@ class GameJoltClient
 	 * @param Trophy_id If you would like to return just one trophy, you may pass the trophy ID with this parameter. If you do, only that trophy will be returned in the response. You may also pass multiple trophy IDs here if you want to return a subset of all the trophies. You do this as a comma-separated list in the same way you would for retrieving multiple users. Passing a `Trophy_ID` will ignore the `Achieved` parameter if it is passed.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Float = 0, ?CallBack:Dynamic):Void
+	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Int = 0, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -282,7 +284,7 @@ class GameJoltClient
 	 * @param Trophy_id The ID of the trophy to add for the user.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Float, ?CallBack:Dynamic):Void
+	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -298,7 +300,7 @@ class GameJoltClient
 	 * @param Trophy_id The ID of the trophy to remove from the user.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Float, ?CallBack:Dynamic):Void
+	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -404,7 +406,7 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function updateDataFromDataStore(Key:String, Operation:String, Value:Dynamic, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
+	public static function updateDataFromDataStore(Key:String, Operation:String, Value:OneOfTwo<String, Int>, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
 	{
 		if (!initialized)
 			return;
@@ -500,7 +502,7 @@ class GameJoltClient
 			trace('[ERROR] - $msg');
 			CallBack(null);
 		}
-		http.request();
+		http.request(false);
 	}
 
 	//////////////////////////////////////////////////////
