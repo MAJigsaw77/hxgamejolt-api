@@ -1,4 +1,4 @@
-package api;
+package gamejolt;
 
 import haxe.Http;
 import haxe.Json;
