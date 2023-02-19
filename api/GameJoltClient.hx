@@ -22,16 +22,15 @@ class GameJoltClient
 {
 	//////////////////////////////////////////////////////
 
+	public static var encoding:Encoding = MD5;
+	public static var initialized(get, never):Bool;
+
 	private static final API_PAGE:String = 'https://api.gamejolt.com/api/game';
 	private static final API_VERSION:String = 'v1_2';
 	private static final DATA_FORMAT:String = '?format=json';
 
 	private static var game_id:String;
 	private static var private_key:String;
-
-	private static var initialized(get, never):Bool;
-
-	public static var encoding:Encoding = MD5;
 
 	//////////////////////////////////////////////////////
 
@@ -53,12 +52,12 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function authUser(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
+	public static function authUser(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/users/auth/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/users/auth/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
 	}
 
 	/**
@@ -68,7 +67,7 @@ class GameJoltClient
 	 * @param User_ID The ID of the user you'd like to fetch the data from.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchUser(UserName:String, User_ID:Int, ?CallBack:Dynamic):Void
+	public static function fetchUser(UserName:String, User_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -80,7 +79,7 @@ class GameJoltClient
 		else if (User_ID != null)
 			page += '&user_id=' + User_ID;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -91,12 +90,12 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function openSessions(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
+	public static function openSessions(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/open/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/sessions/open/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
 	}
 
 	/**
@@ -109,7 +108,7 @@ class GameJoltClient
 	 * @param Status Sets the status of the session.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function pingSessions(UserName:String, User_Token:String, ?Status:String, ?CallBack:Dynamic):Void
+	public static function pingSessions(UserName:String, User_Token:String, ?Status:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -119,7 +118,7 @@ class GameJoltClient
 		if (Status == 'active' || Status == 'idle')
 			page += '&status=' + Status;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -130,12 +129,12 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function checkSessions(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
+	public static function checkSessions(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/check/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/sessions/check/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
 	}
 
 	/**
@@ -145,12 +144,12 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function closeSessions(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
+	public static function closeSessions(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/close/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/sessions/close/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
 	}
 
 	/**
@@ -165,7 +164,7 @@ class GameJoltClient
 	 * @param Table_ID The ID of the score table to submit to.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_data:String, ?Table_ID:Int, ?CallBack:Dynamic):Void
+	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_data:String, ?Table_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -184,7 +183,7 @@ class GameJoltClient
 		if (Table_ID != null)
 			page += '&table_id=' + Table_ID;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -194,12 +193,12 @@ class GameJoltClient
 	 * @param Table_ID The ID of the score table from which you want to get the rank.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?CallBack:Dynamic):Void
+	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/scores/get-rank/' + DATA_FORMAT + '&game_id=' + game_id + '&sort=' + Sort + '&table_id=' + Table_ID, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/scores/get-rank/' + DATA_FORMAT + '&game_id=' + game_id + '&sort=' + Sort + '&table_id=' + Table_ID, false, onSucceed, onFail);
 	}
 
 	/**
@@ -214,7 +213,7 @@ class GameJoltClient
 	 * @param Worse_than Fetch only scores worse than this score sort value.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchScore(?Limit:Int, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int, ?CallBack:Dynamic):Void
+	public static function fetchScore(?Limit:Int, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -236,7 +235,7 @@ class GameJoltClient
 		if (Worse_than != null)
 			page += '&worse_than=' + Worse_than;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -244,12 +243,12 @@ class GameJoltClient
 	 * 
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function scoreTables(?CallBack:Dynamic):Void
+	public static function scoreTables(?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/scores/tables/' + DATA_FORMAT + '&game_id=' + game_id, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/scores/tables/' + DATA_FORMAT + '&game_id=' + game_id, false, onSucceed, onFail);
 	}
 
 	/**
@@ -261,7 +260,7 @@ class GameJoltClient
 	 * @param Trophy_id If you would like to return just one trophy, you may pass the trophy ID with this parameter. If you do, only that trophy will be returned in the response. You may also pass multiple trophy IDs here if you want to return a subset of all the trophies. You do this as a comma-separated list in the same way you would for retrieving multiple users. Passing a `Trophy_ID` will ignore the `Achieved` parameter if it is passed.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Int = 0, ?CallBack:Dynamic):Void
+	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Int = 0, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -273,7 +272,7 @@ class GameJoltClient
 		else if (Trophy_ID > 0)
 			page += '&trophy_id=' + Trophy_ID;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -284,12 +283,12 @@ class GameJoltClient
 	 * @param Trophy_id The ID of the trophy to add for the user.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?CallBack:Dynamic):Void
+	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/add-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/trophies/add-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, false, onSucceed, onFail);
 	}
 
 	/**
@@ -300,12 +299,12 @@ class GameJoltClient
 	 * @param Trophy_id The ID of the trophy to remove from the user.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?CallBack:Dynamic):Void
+	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/remove-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/trophies/remove-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, false, onSucceed, onFail);
 	}
 
 	/**
@@ -316,7 +315,7 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
+	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -326,7 +325,7 @@ class GameJoltClient
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -337,7 +336,7 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
+	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -350,7 +349,7 @@ class GameJoltClient
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -361,7 +360,7 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
+	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -371,7 +370,7 @@ class GameJoltClient
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -383,7 +382,7 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
+	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -393,7 +392,7 @@ class GameJoltClient
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -406,7 +405,7 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function updateDataFromDataStore(Key:String, Operation:String, Value:OneOfTwo<String, Int>, ?UserName:String, ?User_Token:String, ?CallBack:Dynamic):Void
+	public static function updateDataFromDataStore(Key:String, Operation:String, Value:OneOfTwo<String, Int>, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -416,7 +415,7 @@ class GameJoltClient
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, CallBack, false);
+		postData(page, false, onSucceed, onFail);
 	}
 
 	/**
@@ -426,12 +425,12 @@ class GameJoltClient
 	 * @param User_Token The user's token.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchFriends(UserName:String, User_Token:String, ?CallBack:Dynamic):Void
+	public static function fetchFriends(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
 	}
 
 	/**
@@ -444,7 +443,7 @@ class GameJoltClient
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id, CallBack, false);
+		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id, false, onSucceed, onFail);
 	}
 
 	/**
@@ -455,7 +454,7 @@ class GameJoltClient
 	 * @param Requests An array of sub-request URLs. Each request will be executed and the responses of each one will be returned in the payload. You must URL-encode each sub-request.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function batchRequest(?Parallel:Null<Bool>, ?Break_On_Error:Null<Bool>, Requests:Array<String>, ?CallBack:Dynamic):Void
+	public static function batchRequest(?Parallel:Null<Bool>, ?Break_On_Error:Null<Bool>, Requests:Array<String>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -470,12 +469,12 @@ class GameJoltClient
 		else if (Break_On_Error != null)
 			page += '&break_on_error=' + Break_On_Error;
 
-		postData(page, CallBack, true);
+		postData(page, true, onSucceed, onFail);
 	}
 
 	//////////////////////////////////////////////////////
 
-	private static function postData(URL:String, CallBack:Dynamic, EncodeURL:Bool = false):Void
+	private static function postData(URL:String, EncodeURL:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
 		switch (encoding)
 		{
@@ -491,18 +490,25 @@ class GameJoltClient
 		var http:Http = new Http(page);
 		http.onData = function(data:String)
 		{
-			trace('[COMPLETE] - Data was sended successfully from the API! Casting to the callback...');
-			if (CallBack != null)
-				CallBack(Json.parse(data));
+			var response:Dynamic = Json.parse(data).response;
+
+			if (response.success == 'true')
+			{
+				if (onSucceed != null)
+					onSucceed(response);
+			}
 			else
-				trace('[WARNING] - The Callback is null!');
+			{
+				if (onFail != null)
+					onFail(response.message);
+			}
 		}
-		http.onError = function(msg:String)
+		http.onError = function(message:String)
 		{
-			trace('[ERROR] - $msg');
-			CallBack(null);
+			if (onFail != null)
+				onFail(message);
 		}
-		http.request(false);
+		http.request();
 	}
 
 	//////////////////////////////////////////////////////
