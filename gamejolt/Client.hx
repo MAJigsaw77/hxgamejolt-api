@@ -497,7 +497,7 @@ class GameJoltClient
 				if (onSucceed != null)
 					onSucceed(response);
 			}
-			else
+			else if (response.message != null)
 			{
 				if (onFail != null)
 					onFail(response.message);
