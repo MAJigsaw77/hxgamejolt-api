@@ -14,11 +14,11 @@ A full integration of [GameJolt API](https://gamejolt.com/game-api) to Haxe.
 
 You can install it through `Haxelib`
 ```bash
-haxelib install hxgamejolt
+haxelib install hxgamejolt-api
 ```
 Or through `Git`, if you want the latest updates
 ```bash
-haxelib git hxgamejolt https://github.com/MAJigsaw77/hxgamejolt.git
+haxelib git hxgamejolt-api https://github.com/MAJigsaw77/hxgamejolt-api.git
 ```
 
 ### Basic Usage Example
