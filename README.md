@@ -1,4 +1,4 @@
-# hxgamejolt
+# hxgamejolt-api
 
 A full integration of [GameJolt API](https://gamejolt.com/game-api) to Haxe.
 
