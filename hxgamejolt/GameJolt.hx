@@ -1,4 +1,4 @@
-package gamejolt;
+package hxgamejolt;
 
 import haxe.Http;
 import haxe.Json;
@@ -18,7 +18,7 @@ enum Encoding
  * 
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
-class GameJoltClient
+class GameJolt
 {
 	//////////////////////////////////////////////////////
 
