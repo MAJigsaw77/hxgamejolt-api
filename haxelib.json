@@ -4,7 +4,7 @@
 	"license":"MIT",
 	"tags":[
 		"haxe",
-		"gamejolt-api"
+		"gamejolt"
 	],
 	"description":"A full integration of GameJolt API to Haxe.",
 	"version":"1.0.0",
