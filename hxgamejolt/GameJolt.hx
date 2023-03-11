@@ -438,7 +438,7 @@ class GameJolt
 	 * 
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchTime(?CallBack:Dynamic):Void
+	public static function fetchTime(?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
