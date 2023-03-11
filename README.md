@@ -1,6 +1,6 @@
 ### hxgamejolt
 
-A full integration of GameJolt to Haxe.
+A full integration of GameJolt API to Haxe.
 
 ### Features
 * Latest API version.
