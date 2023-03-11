@@ -485,9 +485,9 @@ class GameJolt
 		}
 
 		if (EncodeURL)
-			page = StringTools.urlEncode(URL);
+			URL = StringTools.urlEncode(URL);
 
-		var http:Http = new Http(page);
+		var http:Http = new Http(URL);
 		http.onData = function(data:String)
 		{
 			var response:Dynamic = Json.parse(data).response;
