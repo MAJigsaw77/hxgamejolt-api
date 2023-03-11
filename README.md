@@ -1,6 +1,8 @@
-### hxgamejolt
+# hxgamejolt
 
-A full integration of GameJolt API to Haxe.
+A full integration of [GameJolt API](https://gamejolt.com/game-api) to Haxe.
+
+![](https://img.shields.io/github/repo-size/MAJigsaw77/hxgamejolt) ![](https://badgen.net/github/open-issues/MAJigsaw77/hxgamejolt) ![](https://badgen.net/badge/license/MIT/green)
 
 ### Features
 * Latest API version.
@@ -10,9 +12,16 @@ A full integration of GameJolt API to Haxe.
 
 ### Installation
 
-Do this command `haxelib git gamejolt-integration https://github.com/MAJigsaw77/hxgamejolt.git` on Command prompt/PowerShell.
+You can install it through `Haxelib`
+```bash
+haxelib install hxgamejolt
+```
+Or through `Git`, if you want the latest updates
+```bash
+haxelib git hxgamejolt https://github.com/MAJigsaw77/hxgamejolt.git
+```
 
-### Basic Functons
+### Basic Usage Example
 
 ```haxe
 import gamejolt.Client as GJClient; // be sure you import this.
@@ -30,14 +39,8 @@ GJClient.authUser('user name', 'user token', function(json:Dynamic) // on Succee
 GJClient.fetchUser('user name', 0, function(json:Dynamic) // on Succeed
 {
 	// your code
-}, function(message:String) // onFail
+}, function(message:String) // on Failure
 {
 	// your code
 });
-
-// there are more function then those, check the source if you want.
 ```
-
-### Credits
-* [M.A. Jigsaw](https://github.com/MAJigsaw77) - Creator of this library.
-* The Contributors!
