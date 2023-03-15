@@ -36,7 +36,7 @@ GJClient.authUser('user name', 'user token', function(json:Dynamic) // on Succee
 	// your code
 });
 
-GJClient.fetchUser('user name', 0, function(json:Dynamic) // on Succeed
+GJClient.fetchUser('user name', [], function(json:Dynamic) // on Succeed
 {
 	// your code
 }, function(message:String) // on Failure
