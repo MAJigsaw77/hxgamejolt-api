@@ -57,7 +57,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/users/auth/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/users/auth/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class GameJolt
 		else if (User_ID != null)
 			page += '&user_id=' + User_ID.length > 1 ? User_ID.join(',') : User_ID[0];
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/open/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/sessions/open/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class GameJolt
 		if (Status == 'active' || Status == 'idle')
 			page += '&status=' + Status;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/check/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/sessions/check/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/close/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/sessions/close/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class GameJolt
 		if (Table_ID != null)
 			page += '&table_id=' + Table_ID;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -198,7 +198,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/scores/get-rank/' + DATA_FORMAT + '&game_id=' + game_id + '&sort=' + Sort + '&table_id=' + Table_ID, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/scores/get-rank/' + DATA_FORMAT + '&game_id=' + game_id + '&sort=' + Sort + '&table_id=' + Table_ID, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -235,7 +235,7 @@ class GameJolt
 		if (Worse_than != null)
 			page += '&worse_than=' + Worse_than;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -248,7 +248,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/scores/tables/' + DATA_FORMAT + '&game_id=' + game_id, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/scores/tables/' + DATA_FORMAT + '&game_id=' + game_id, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -272,7 +272,7 @@ class GameJolt
 		else if (Trophy_ID > 0)
 			page += '&trophy_id=' + Trophy_ID;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -288,7 +288,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/add-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/trophies/add-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -304,7 +304,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/remove-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/trophies/remove-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -325,7 +325,7 @@ class GameJolt
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -349,7 +349,7 @@ class GameJolt
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -370,7 +370,7 @@ class GameJolt
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -392,7 +392,7 @@ class GameJolt
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -415,7 +415,7 @@ class GameJolt
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, false, onSucceed, onFail);
+		postData(page, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -430,7 +430,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -443,7 +443,7 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id, false, onSucceed, onFail);
+		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id, false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -469,12 +469,12 @@ class GameJolt
 		else if (Break_On_Error != null)
 			page += '&break_on_error=' + Break_On_Error;
 
-		postData(page, true, onSucceed, onFail);
+		postData(page, true, true, onSucceed, onFail);
 	}
 
 	//////////////////////////////////////////////////////
 
-	private static function postData(URL:String, EncodeURL:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
+	private static function postData(URL:String, Post:Bool = false, EncodeURL:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
 		switch (encoding)
 		{
@@ -508,7 +508,7 @@ class GameJolt
 			if (onFail != null)
 				onFail(message);
 		}
-		http.request(true);
+		http.request(Post);
 	}
 
 	//////////////////////////////////////////////////////
