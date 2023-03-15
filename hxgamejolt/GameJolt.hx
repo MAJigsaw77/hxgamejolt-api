@@ -508,7 +508,7 @@ class GameJolt
 			if (onFail != null)
 				onFail(message);
 		}
-		http.request();
+		http.request(true);
 	}
 
 	//////////////////////////////////////////////////////
