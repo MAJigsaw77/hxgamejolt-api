@@ -7,8 +7,8 @@
 		"gamejolt"
 	],
 	"description":"Haxe bindings for GameJolt API.",
-	"version":"1.0.1",
-	"releasenote":"Added a Int Array for User_ID in fetchUser function",
+	"version":"1.0.2",
+	"releasenote":"Fixed batch call and User_ID length condition.",
 	"contributors":[
 		"MAJigsaw77"
 	]
