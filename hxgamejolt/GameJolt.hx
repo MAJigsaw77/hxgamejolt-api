@@ -77,15 +77,7 @@ class GameJolt
 		if (UserName != null)
 			page += '&username=' + UserName;
 		else if (User_ID != null && User_ID.length > 0)
-		{
-			if (User_ID.length > 1)
-			{
-				final IDs:Array<String> = [for (ID in User_ID) Std.string(ID)];
-				page += '&user_id=' + IDs.join(',');
-			}
-			else
-				page += '&user_id=' + IDs[0];
-		}
+			page += '&user_id=' + User_ID.length > 1 ? User_ID.join(',') : User_ID[0];
 
 		postData(page, false, onSucceed, onFail);
 	}
