@@ -67,7 +67,7 @@ class GameJolt
 	 * @param User_ID The ID of the user you'd like to fetch the data from.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchUser(UserName:String, ?User_ID:Array<Int>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function fetchUser(UserName:String, User_ID:Array<Int>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
