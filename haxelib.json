@@ -7,8 +7,8 @@
 		"gamejolt"
 	],
 	"description":"A full integration of GameJolt API to Haxe.",
-	"version":"1.0.0",
-	"releasenote":"First Release",
+	"version":"1.0.1",
+	"releasenote":"Added a Int Array for User_ID in fetchUser function",
 	"contributors":[
 		"MAJigsaw77"
 	]
