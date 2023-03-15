@@ -6,7 +6,7 @@
 		"haxe",
 		"gamejolt"
 	],
-	"description":"A full integration of GameJolt API to Haxe.",
+	"description":"Haxe bindings for GameJolt API.",
 	"version":"1.0.1",
 	"releasenote":"Added a Int Array for User_ID in fetchUser function",
 	"contributors":[
