@@ -67,7 +67,7 @@ class GameJolt
 	 * @param User_ID The ID of the user you'd like to fetch the data from.
 	 * @param CallBack A callback with the returned json data.
 	 */
-	public static function fetchUser(UserName:String, User_ID:Null<Int>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function fetchUser(UserName:String, ?User_ID:Array<Int>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (!initialized)
 			return;
@@ -76,8 +76,16 @@ class GameJolt
 
 		if (UserName != null)
 			page += '&username=' + UserName;
-		else if (User_ID != null)
-			page += '&user_id=' + User_ID;
+		else if (User_ID != null && User_ID.length > 0)
+		{
+			if (User_ID.length > 1)
+			{
+				final IDs:Array<String> = [for (ID in User_ID) Std.string(ID)];
+				page += '&user_id=' + IDs.join(',');
+			}
+			else
+				page += '&user_id=' + IDs[0];
+		}
 
 		postData(page, false, onSucceed, onFail);
 	}
