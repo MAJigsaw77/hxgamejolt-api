@@ -77,7 +77,7 @@ class GameJolt
 		if (UserName != null)
 			page += '&username=' + UserName;
 		else if (User_ID != null)
-			page += '&user_id=' + User_ID.length > 1 ? User_ID.join(',') : User_ID[0];
+			page += '&user_id=' + Std.string(User_ID.length > 1 ? User_ID.join(',') : User_ID[0]);
 
 		postData(page, false, false, onSucceed, onFail);
 	}
