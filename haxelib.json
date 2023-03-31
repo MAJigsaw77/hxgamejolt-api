@@ -7,8 +7,8 @@
 		"gamejolt"
 	],
 	"description":"Haxe bindings for GameJolt API.",
-	"version":"1.0.3",
-	"releasenote":"Fixed compile issues.",
+	"version":"1.0.4",
+	"releasenote":"Updated the License and formatted GameJolt.hx.",
 	"contributors":[
 		"MAJigsaw77"
 	]
