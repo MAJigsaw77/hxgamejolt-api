@@ -24,7 +24,7 @@ haxelib git hxgamejolt-api https://github.com/MAJigsaw77/hxgamejolt-api.git
 ### Basic Usage Example
 
 ```haxe
-import gamejolt.Client as GJClient; // be sure you import this.
+import hxgamejolt.GameJolt as GJClient; // be sure you import this.
 
 GJClient.init('game id', 'private key');
 
