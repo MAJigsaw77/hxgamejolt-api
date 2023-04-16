@@ -1,8 +1,8 @@
 # hxgamejolt-api
 
-Haxe bindings for [GameJolt API](https://gamejolt.com/game-api)
-
 ![](https://img.shields.io/github/repo-size/MAJigsaw77/hxgamejolt) ![](https://badgen.net/github/open-issues/MAJigsaw77/hxgamejolt) ![](https://badgen.net/badge/license/MIT/green)
+
+Haxe bindings for [GameJolt API](https://gamejolt.com/game-api)
 
 ### Features
 * Latest API version.
