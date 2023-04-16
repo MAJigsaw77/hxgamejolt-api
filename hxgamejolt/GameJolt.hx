@@ -1,9 +1,9 @@
 package hxgamejolt;
 
-import haxe.Http;
-import haxe.Json;
 import haxe.crypto.Md5;
 import haxe.crypto.Sha1;
+import haxe.Http;
+import haxe.Json;
 
 abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
 
