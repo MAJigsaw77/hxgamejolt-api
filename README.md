@@ -4,12 +4,6 @@
 
 Haxe bindings for [GameJolt API](https://gamejolt.com/game-api)
 
-### Features
-* Latest API version.
-* JSON Data format.
-* MD5/Sha1 URL encoding.
-* And many more!
-
 ### Installation
 
 You can install it through `Haxelib`
