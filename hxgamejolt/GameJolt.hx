@@ -5,14 +5,6 @@ import haxe.crypto.Sha1;
 import haxe.Http;
 import haxe.Json;
 
-abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
-
-enum Encoding
-{
-	MD5;
-	SHA1;
-}
-
 /**
  * @see https://gamejolt.com/game-api/doc
  *
@@ -584,4 +576,12 @@ class GameJolt
 	}
 
 	//////////////////////////////////////////////////////
+}
+
+abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
+
+enum Encoding
+{
+	MD5;
+	SHA1;
 }
