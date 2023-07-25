@@ -85,7 +85,7 @@ class GameJolt
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/users/' + DATA_FORMAT + '&game_id=' + game_id;
 
-		if (UserName != null)
+		if (UserName != null && UserName.length > 0)
 			page += '&username=' + UserName;
 		else if (User_ID != null)
 			page += '&user_id=' + Std.string(User_ID.length > 1 ? User_ID.join(',') : User_ID[0]);
@@ -189,15 +189,16 @@ class GameJolt
 
 		var page:String = API_PAGE + '/' + API_VERSION + '/scores/add/' + DATA_FORMAT + '&game_id=' + game_id;
 
-		if (UserName != null && User_Token != null)
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=' + UserName + '&user_token=' + User_Token;
-		else if (Guest != null)
+		else if (Guest != null && Guest.length > 0)
 			page += '&guest=' + Guest;
 
 		page += '&score=' + Score + '&sort=' + Sort;
 
-		if (Extra_data != null)
+		if (Extra_data != null && Extra_data.length > 0)
 			page += '&extra_data=' + Extra_data;
+
 		if (Table_ID != null)
 			page += '&table_id=' + Table_ID;
 
@@ -255,9 +256,9 @@ class GameJolt
 		if (Table_ID != null)
 			page += '&table_id=' + Table_ID;
 
-		if (UserName != null && User_Token != null)
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=' + UserName + '&user_token=' + User_Token;
-		else if (Guest != null)
+		else if (Guest != null && Guest.length > 0)
 			page += '&guest=' + Guest;
 
 		if (Better_than != null)
@@ -461,7 +462,7 @@ class GameJolt
 		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/update/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key + '&operation='
 			+ Operation + '&value=' + Value;
 
-		if (UserName != null && User_Token != null)
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
 		postData(page, false, false, onSucceed, onFail);
@@ -558,7 +559,7 @@ class GameJolt
 				if (onSucceed != null)
 					onSucceed(response);
 			}
-			else if (response.message != null)
+			else if (response.message != null && response.message.length > 0)
 			{
 				if (onFail != null)
 					onFail(response.message);
