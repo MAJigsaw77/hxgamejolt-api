@@ -569,7 +569,7 @@ class GameJolt
 
 	static function get_initialized():Bool
 	{
-		if ((game_id != null && game_id != '') && (private_key != null && private_key != ''))
+		if ((game_id != null && game_id.length > 0) && (private_key != null && private_key.length > 0))
 			return true;
 
 		return false;
