@@ -4,6 +4,9 @@ import haxe.crypto.Md5;
 import haxe.crypto.Sha1;
 import haxe.Http;
 import haxe.Json;
+#if (target.threaded)
+import sys.thread.Thread;
+#end
 
 /**
  * @see https://gamejolt.com/game-api/doc
@@ -572,6 +575,33 @@ class GameJolt
 	{
 		url += '&signature=' + encoding.encode(URL + private_key);
 
+		#if (target.threaded)
+		Thread.create(function()
+		{
+			var http:Http = new Http(encode ? StringTools.urlEncode(url) : url);
+			http.onData = function(data:String)
+			{
+				final response:Dynamic = Json.parse(data).response;
+
+				if (response.success == 'true')
+				{
+					if (onSucceed != null)
+						onSucceed(response);
+				}
+				else if (response.message != null && response.message.length > 0)
+				{
+					if (onFail != null)
+						onFail(response.message);
+				}
+			}
+			http.onError = function(message:String)
+			{
+				if (onFail != null)
+					onFail(message);
+			}
+			http.request(post);
+		});
+		#else
 		var http:Http = new Http(encode ? StringTools.urlEncode(url) : url);
 		http.onData = function(data:String)
 		{
@@ -594,6 +624,7 @@ class GameJolt
 				onFail(message);
 		}
 		http.request(post);
+		#end
 	}
 }
 
