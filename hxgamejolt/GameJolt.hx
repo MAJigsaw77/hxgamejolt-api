@@ -14,12 +14,12 @@ class GameJolt
 {
 	//////////////////////////////////////////////////////
 
-	public static var encoding:Encoding = MD5;
-	public static var initialized(get, never):Bool;
-
 	private static final API_PAGE:String = 'https://api.gamejolt.com/api/game';
 	private static final API_VERSION:String = 'v1_2';
 	private static final DATA_FORMAT:String = '?format=json';
+
+	public static var encoding:Encoding = MD5;
+	public static var initialized(get, never):Bool;
 
 	private static var game_id:String;
 	private static var private_key:String;
@@ -538,10 +538,7 @@ class GameJolt
 				URL += '&signature=' + Sha1.encode(URL + private_key);
 		}
 
-		if (EncodeURL)
-			URL = StringTools.urlEncode(URL);
-
-		var http:Http = new Http(URL);
+		var http:Http = new Http(EncodeURL ? StringTools.urlEncode(URL) : URL);
 		http.onData = function(data:String)
 		{
 			var response:Dynamic = Json.parse(data).response;
@@ -567,7 +564,7 @@ class GameJolt
 
 	//////////////////////////////////////////////////////
 
-	static function get_initialized():Bool
+	private static function get_initialized():Bool
 	{
 		if ((game_id != null && game_id.length > 0) && (private_key != null && private_key.length > 0))
 			return true;
