@@ -38,3 +38,8 @@ GJClient.fetchUser('user name', [], function(json:Dynamic) // on Succeed
 	// your code
 });
 ```
+
+### Licensing
+
+**hxgamejolt-api** is made available under the **MIT License**. Check [LICENSE](./LICENSE) for more information.
+
