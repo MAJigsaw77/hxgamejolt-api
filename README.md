@@ -18,11 +18,11 @@ haxelib git hxgamejolt-api https://github.com/MAJigsaw77/hxgamejolt-api.git
 ### Basic Usage Example
 
 ```haxe
-import hxgamejolt.GameJolt as GJClient; // be sure you import this.
+import hxgamejolt.GameJolt; // be sure you import this.
 
-GJClient.init('game id', 'private key');
+GameJolt.init('game id', 'private key');
 
-GJClient.authUser('user name', 'user token', function(json:Dynamic) // on Succeed
+GameJolt.authUser('user name', 'user token', function(json:Dynamic) // on Succeed
 {
 	// your code
 }, function(message:String) // on Failure
@@ -30,7 +30,7 @@ GJClient.authUser('user name', 'user token', function(json:Dynamic) // on Succee
 	// your code
 });
 
-GJClient.fetchUser('user name', [], function(json:Dynamic) // on Succeed
+GameJolt.fetchUser('user name', [], function(json:Dynamic) // on Succeed
 {
 	// your code
 }, function(message:String) // on Failure
@@ -42,4 +42,3 @@ GJClient.fetchUser('user name', [], function(json:Dynamic) // on Succeed
 ### Licensing
 
 **hxgamejolt-api** is made available under the **MIT License**. Check [LICENSE](./LICENSE) for more information.
-
