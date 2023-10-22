@@ -1,7 +1,6 @@
 package hxgamejolt;
 
 import haxe.crypto.Md5;
-import haxe.crypto.Sha1;
 import haxe.Http;
 import haxe.Json;
 #if (target.threaded)
@@ -15,8 +14,6 @@ import sys.thread.Thread;
  */
 class GameJolt
 {
-	public static var encoding:OneOfTwo<Md5, Sha1> = Md5;
-
 	private static final API_PAGE:String = 'https://api.gamejolt.com/api/game';
 	private static final API_VERSION:String = 'v1_2';
 	private static final DATA_FORMAT:String = '?format=json';
@@ -573,7 +570,7 @@ class GameJolt
 
 	private static function postData(url:String, post:Bool = false, encode:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
-		url += '&signature=' + encoding.encode(URL + private_key);
+		url += '&signature=' + Md5.encode(url + private_key);
 
 		#if (target.threaded)
 		Thread.create(function()
@@ -627,5 +624,3 @@ class GameJolt
 		#end
 	}
 }
-
-abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
