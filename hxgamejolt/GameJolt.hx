@@ -122,7 +122,7 @@ class GameJolt
 		var page:String = '$API_PAGE/$API_VERSION/sessions/ping/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token';
 
 		if (Status != null)
-			page += '&status=' + Status.getName().toLowerCase();
+			page += '&status=${Status.getName().toLowerCase()}';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -240,20 +240,20 @@ class GameJolt
 		var page:String = '$API_PAGE/$API_VERSION/scores/$DATA_FORMAT&game_id=$game_id';
 
 		if (Limit != null)
-			page += '&limit=' + Limit;
+			page += '&limit=$Limit';
 
 		if (Table_ID != null)
-			page += '&table_id=' + Table_ID;
+			page += '&table_id=$Table_ID';
 
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+			page += '&username=$UserName&user_token=$User_Token';
 		else if (Guest != null && Guest.length > 0)
-			page += '&guest=' + Guest;
+			page += '&guest=$Guest';
 
 		if (Better_than != null)
-			page += '&better_than=' + Better_than;
+			page += '&better_than=$Better_than';
 		if (Worse_than != null)
-			page += '&worse_than=' + Worse_than;
+			page += '&worse_than=$Worse_than';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -353,8 +353,8 @@ class GameJolt
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/$DATA_FORMAT&game_id=$game_id&key=$Key';
 
-		if (UserName != null && User_Token != null)
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -376,10 +376,10 @@ class GameJolt
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/get-keys/$DATA_FORMAT&game_id=$game_id';
 
-		if (Pattern != null)
+		if (Pattern != null && Pattern.length > 0)
 			page += '&pattern=' + Pattern;
 
-		if (UserName != null && User_Token != null)
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
 		postData(page, false, false, onSucceed, onFail);
@@ -402,8 +402,8 @@ class GameJolt
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/remove/$DATA_FORMAT&game_id=$game_id&key=$Key';
 
-		if (UserName != null && User_Token != null)
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -427,8 +427,8 @@ class GameJolt
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/set/$DATA_FORMAT&game_id=$game_id&key=$Key&data=$Data';
 
-		if (UserName != null && User_Token != null)
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -510,19 +510,19 @@ class GameJolt
 		var page:String = '$API_PAGE/$API_VERSION/batch/$DATA_FORMAT&game_id=$game_id';
 
 		for (request in Requests)
-			page += '&requests[]=' + request;
+			page += '&requests[]=$request';
 
 		if (Parallel != null)
-			page += '&parallel=' + Parallel;
+			page += '&parallel=$Parallel';
 		else if (Break_On_Error != null)
-			page += '&break_on_error=' + Break_On_Error;
+			page += '&break_on_error=$Break_On_Error';
 
 		postData(page, true, true, onSucceed, onFail);
 	}
 
 	private static function postData(url:String, post:Bool = false, encode:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
-		url += '&signature=' + Md5.encode(url + private_key);
+		url += '&signature=${Md5.encode(url + private_key)}';
 
 		#if (target.threaded)
 		Thread.create(function()
