@@ -15,8 +15,6 @@ enum SessionStatus
 
 /**
  * @see https://gamejolt.com/game-api/doc
- *
- * @author Mihai Alexandru (M.A. Jigsaw)
  */
 class GameJolt
 {
