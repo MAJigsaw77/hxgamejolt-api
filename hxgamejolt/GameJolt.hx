@@ -7,6 +7,12 @@ import haxe.Json;
 import sys.thread.Thread;
 #end
 
+enum Status
+{
+	Active;
+	Idle;
+}
+
 /**
  * @see https://gamejolt.com/game-api/doc
  *
@@ -71,9 +77,9 @@ class GameJolt
 		var page:String = '$API_PAGE/$API_VERSION/users/$DATA_FORMAT&game_id=$game_id';
 
 		if (UserName != null && UserName.length > 0)
-			page += '&username=' + UserName;
+			page += '&username=$UserName';
 		else if (User_ID != null)
-			page += '&user_id=' + Std.string(User_ID.length > 1 ? User_ID.join(',') : User_ID[0]);
+			page += '&user_id=${User_ID.length > 1 ? User_ID.join(',') : User_ID[0]}';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -93,8 +99,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/open/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/open/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -109,16 +114,15 @@ class GameJolt
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function pingSessions(UserName:String, User_Token:String, ?Status:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function pingSessions(UserName:String, User_Token:String, ?Status:Status, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/sessions/ping/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token;
+		var page:String = '$API_PAGE/$API_VERSION/sessions/ping/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token';
 
-		if (Status == 'active' || Status == 'idle')
-			page += '&status=' + Status;
+		if (Status != null)
+			page += '&status=' + Status.getName().toLowerCase();
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -138,9 +142,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/check/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/check/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -157,9 +159,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/close/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/close/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -170,13 +170,13 @@ class GameJolt
 	 * @param Guest The guest's name.
 	 * @param Score This is a string value associated with the score. Example: 500 Points
 	 * @param Sort This is a numerical sorting value associated with the score. All sorting will be based on this number. Example: 500
-	 * @param Extra_data If there's any extra data you would like to store as a string, you can use this variable.
+	 * @param Extra_Data If there's any extra data you would like to store as a string, you can use this variable.
 	 * @param Table_ID The ID of the score table to submit to.
 	 *
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_data:String, ?Table_ID:Int,
+	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_Data:String, ?Table_ID:Int,
 			?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
@@ -185,17 +185,17 @@ class GameJolt
 		var page:String = '$API_PAGE/$API_VERSION/scores/add/$DATA_FORMAT&game_id=$game_id';
 
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+			page += '&username=$UserName&user_token=$User_Token';
 		else if (Guest != null && Guest.length > 0)
-			page += '&guest=' + Guest;
+			page += '&guest=$Guest';
 
-		page += '&score=' + Score + '&sort=' + Sort;
+		page += '&score=$Score&sort=$Sort';
 
-		if (Extra_data != null && Extra_data.length > 0)
-			page += '&extra_data=' + Extra_data;
+		if (Extra_Data != null && Extra_Data.length > 0)
+			page += '&extra_data=$Extra_Data';
 
 		if (Table_ID != null)
-			page += '&table_id=' + Table_ID;
+			page += '&table_id=$Table_ID';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
