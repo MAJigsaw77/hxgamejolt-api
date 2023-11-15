@@ -281,7 +281,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/scores/tables/' + DATA_FORMAT + '&game_id=' + game_id, false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/scores/tables/$DATA_FORMAT&game_id=$game_id', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -327,9 +327,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/add-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token + '&trophy_id=' + Trophy_ID,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/trophies/add-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -347,9 +345,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/remove-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName
-			+ '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/trophies/remove-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -500,18 +496,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/friends/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&username='
-			+ UserName
-			+ '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/friends/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
 	}
 
 	/**
