@@ -114,7 +114,7 @@ class GameJolt
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function pingSessions(UserName:String, User_Token:String, ?Status:SessionStatus, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function pingSessions(UserName:String, User_Token:String, ?Status:Null<SessionStatus>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -351,7 +351,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/$DATA_FORMAT&game_id=$game_id&key=$Key';
 
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
@@ -400,7 +400,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/remove/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/remove/$DATA_FORMAT&game_id=$game_id&key=$Key';
 
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
@@ -425,17 +425,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/data-store/set/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&key='
-			+ Key
-			+ '&data='
-			+ Data;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/set/$DATA_FORMAT&game_id=$game_id&key=$Key&data=$Data';
 
 		if (UserName != null && User_Token != null)
 			page += '&username=' + UserName + '&user_token=' + User_Token;
@@ -587,4 +577,4 @@ class GameJolt
 	}
 }
 
-abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
+private abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
