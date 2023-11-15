@@ -7,7 +7,7 @@ import haxe.Json;
 import sys.thread.Thread;
 #end
 
-enum Status
+enum SessionStatus
 {
 	Active;
 	Idle;
@@ -114,7 +114,7 @@ class GameJolt
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function pingSessions(UserName:String, User_Token:String, ?Status:Status, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function pingSessions(UserName:String, User_Token:String, ?Status:SessionStatus, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -473,11 +473,10 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/update/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key + '&operation='
-			+ Operation + '&value=' + Value;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/update/$DATA_FORMAT&game_id=$game_id&key=$Key&operation=$Operation&value=$Value';
 
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -511,7 +510,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id, false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/time/$DATA_FORMAT&game_id=$game_id', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -530,7 +529,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/batch/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/batch/$DATA_FORMAT&game_id=$game_id';
 
 		for (request in Requests)
 			page += '&requests[]=' + request;
