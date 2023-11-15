@@ -214,18 +214,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/scores/get-rank/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&sort='
-			+ Sort
-			+ '&table_id='
-			+ Table_ID, false,
-			false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/scores/get-rank/$DATA_FORMAT&game_id=$game_id&sort=Sort&table_id=$Table_ID', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -301,13 +290,12 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/trophies/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token;
+		var page:String = '$API_PAGE/$API_VERSION/trophies/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token';
 
 		if (Achieved != null)
-			page += '&achieved=' + Achieved;
+			page += '&achieved=$Achieved';
 		else if (Trophy_ID > 0)
-			page += '&trophy_id=' + Trophy_ID;
+			page += '&trophy_id=$Trophy_ID';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
