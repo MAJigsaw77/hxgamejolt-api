@@ -51,18 +51,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/users/auth/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&username='
-			+ UserName
-			+ '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/users/auth/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -79,7 +68,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/users/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/users/$DATA_FORMAT&game_id=$game_id';
 
 		if (UserName != null && UserName.length > 0)
 			page += '&username=' + UserName;
@@ -193,7 +182,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/scores/add/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/scores/add/$DATA_FORMAT&game_id=$game_id';
 
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=' + UserName + '&user_token=' + User_Token;
@@ -259,10 +248,11 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/scores/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/scores/$DATA_FORMAT&game_id=$game_id';
 
 		if (Limit != null)
 			page += '&limit=' + Limit;
+
 		if (Table_ID != null)
 			page += '&table_id=' + Table_ID;
 
@@ -400,7 +390,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/get-keys/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/get-keys/$DATA_FORMAT&game_id=$game_id';
 
 		if (Pattern != null)
 			page += '&pattern=' + Pattern;
