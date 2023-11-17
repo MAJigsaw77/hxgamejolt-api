@@ -7,10 +7,20 @@ import haxe.Json;
 import sys.thread.Thread;
 #end
 
+enum SessionStatus
+{
+	/**
+	 * Sets the session to the `active` state.
+	 */
+	Active;
+	/**
+	 * Sets the session to the `idle` state.
+	 */
+	Idle;
+}
+
 /**
  * @see https://gamejolt.com/game-api/doc
- *
- * @author Mihai Alexandru (M.A. Jigsaw)
  */
 class GameJolt
 {
@@ -51,18 +61,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/users/auth/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&username='
-			+ UserName
-			+ '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/users/auth/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -79,12 +78,12 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/users/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/users/$DATA_FORMAT&game_id=$game_id';
 
 		if (UserName != null && UserName.length > 0)
-			page += '&username=' + UserName;
-		else if (User_ID != null)
-			page += '&user_id=' + Std.string(User_ID.length > 1 ? User_ID.join(',') : User_ID[0]);
+			page += '&username=$UserName';
+		else if (User_ID != null && User_ID.length > 0)
+			page += '&user_id=${User_ID.length > 1 ? User_ID.join(',') : User_ID[0]}';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -104,8 +103,8 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/open/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token=' + User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/open/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed,
+			onFail);
 	}
 
 	/**
@@ -120,16 +119,15 @@ class GameJolt
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function pingSessions(UserName:String, User_Token:String, ?Status:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function pingSessions(UserName:String, User_Token:String, ?Status:Null<SessionStatus>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/sessions/ping/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token;
+		var page:String = '$API_PAGE/$API_VERSION/sessions/ping/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token';
 
-		if (Status == 'active' || Status == 'idle')
-			page += '&status=' + Status;
+		if (Status != null)
+			page += '&status=${Status.getName().toLowerCase()}';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -149,9 +147,8 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/check/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/check/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed,
+			onFail);
 	}
 
 	/**
@@ -168,9 +165,8 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/sessions/close/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/close/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed,
+			onFail);
 	}
 
 	/**
@@ -181,32 +177,32 @@ class GameJolt
 	 * @param Guest The guest's name.
 	 * @param Score This is a string value associated with the score. Example: 500 Points
 	 * @param Sort This is a numerical sorting value associated with the score. All sorting will be based on this number. Example: 500
-	 * @param Extra_data If there's any extra data you would like to store as a string, you can use this variable.
+	 * @param Extra_Data If there's any extra data you would like to store as a string, you can use this variable.
 	 * @param Table_ID The ID of the score table to submit to.
 	 *
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_data:String, ?Table_ID:Int,
+	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_Data:String, ?Table_ID:Int,
 			?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/scores/add/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/scores/add/$DATA_FORMAT&game_id=$game_id';
 
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+			page += '&username=$UserName&user_token=$User_Token';
 		else if (Guest != null && Guest.length > 0)
-			page += '&guest=' + Guest;
+			page += '&guest=$Guest';
 
-		page += '&score=' + Score + '&sort=' + Sort;
+		page += '&score=$Score&sort=$Sort';
 
-		if (Extra_data != null && Extra_data.length > 0)
-			page += '&extra_data=' + Extra_data;
+		if (Extra_Data != null && Extra_Data.length > 0)
+			page += '&extra_data=$Extra_Data';
 
 		if (Table_ID != null)
-			page += '&table_id=' + Table_ID;
+			page += '&table_id=$Table_ID';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -225,18 +221,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/scores/get-rank/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&sort='
-			+ Sort
-			+ '&table_id='
-			+ Table_ID, false,
-			false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/scores/get-rank/$DATA_FORMAT&game_id=$game_id&sort=Sort&table_id=$Table_ID', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -253,28 +238,34 @@ class GameJolt
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function fetchScore(?Limit:Int, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int,
+	public static function fetchScore(?Limit:Int = 10, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int,
 			?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/scores/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/scores/$DATA_FORMAT&game_id=$game_id';
 
 		if (Limit != null)
-			page += '&limit=' + Limit;
+		{
+			if (Limit >= 100)
+				Limit = 100;
+
+			page += '&limit=$Limit';
+		}
+
 		if (Table_ID != null)
-			page += '&table_id=' + Table_ID;
+			page += '&table_id=$Table_ID';
 
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+			page += '&username=$UserName&user_token=$User_Token';
 		else if (Guest != null && Guest.length > 0)
-			page += '&guest=' + Guest;
+			page += '&guest=$Guest';
 
 		if (Better_than != null)
-			page += '&better_than=' + Better_than;
+			page += '&better_than=$Better_than';
 		if (Worse_than != null)
-			page += '&worse_than=' + Worse_than;
+			page += '&worse_than=$Worse_than';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -291,7 +282,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/scores/tables/' + DATA_FORMAT + '&game_id=' + game_id, false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/scores/tables/$DATA_FORMAT&game_id=$game_id', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -311,13 +302,12 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/trophies/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token;
+		var page:String = '$API_PAGE/$API_VERSION/trophies/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token';
 
 		if (Achieved != null)
-			page += '&achieved=' + Achieved;
+			page += '&achieved=$Achieved';
 		else if (Trophy_ID > 0)
-			page += '&trophy_id=' + Trophy_ID;
+			page += '&trophy_id=$Trophy_ID';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -337,8 +327,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/add-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName + '&user_token='
-			+ User_Token + '&trophy_id=' + Trophy_ID,
+		postData('$API_PAGE/$API_VERSION/trophies/add-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID',
 			false, false, onSucceed, onFail);
 	}
 
@@ -357,8 +346,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/trophies/remove-achieved/' + DATA_FORMAT + '&game_id=' + game_id + '&username=' + UserName
-			+ '&user_token=' + User_Token + '&trophy_id=' + Trophy_ID,
+		postData('$API_PAGE/$API_VERSION/trophies/remove-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID',
 			false, false, onSucceed, onFail);
 	}
 
@@ -377,10 +365,10 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/$DATA_FORMAT&game_id=$game_id&key=$Key';
 
-		if (UserName != null && User_Token != null)
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -400,12 +388,12 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/get-keys/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/get-keys/$DATA_FORMAT&game_id=$game_id';
 
-		if (Pattern != null)
+		if (Pattern != null && Pattern.length > 0)
 			page += '&pattern=' + Pattern;
 
-		if (UserName != null && User_Token != null)
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
 		postData(page, false, false, onSucceed, onFail);
@@ -426,10 +414,10 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/remove/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/remove/$DATA_FORMAT&game_id=$game_id&key=$Key';
 
-		if (UserName != null && User_Token != null)
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -451,20 +439,10 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/data-store/set/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&key='
-			+ Key
-			+ '&data='
-			+ Data;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/set/$DATA_FORMAT&game_id=$game_id&key=$Key&data=$Data';
 
-		if (UserName != null && User_Token != null)
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -487,11 +465,10 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/data-store/update/' + DATA_FORMAT + '&game_id=' + game_id + '&key=' + Key + '&operation='
-			+ Operation + '&value=' + Value;
+		var page:String = '$API_PAGE/$API_VERSION/data-store/update/$DATA_FORMAT&game_id=$game_id&key=$Key&operation=$Operation&value=$Value';
 
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
-			page += '&username=' + UserName + '&user_token=' + User_Token;
+			page += '&username=$UserName&user_token=$User_Token';
 
 		postData(page, false, false, onSucceed, onFail);
 	}
@@ -510,18 +487,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE
-			+ '/'
-			+ API_VERSION
-			+ '/friends/'
-			+ DATA_FORMAT
-			+ '&game_id='
-			+ game_id
-			+ '&username='
-			+ UserName
-			+ '&user_token='
-			+ User_Token,
-			false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/friends/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -536,7 +502,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData(API_PAGE + '/' + API_VERSION + '/friends/' + DATA_FORMAT + '&game_id=' + game_id, false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/time/$DATA_FORMAT&game_id=$game_id', false, false, onSucceed, onFail);
 	}
 
 	/**
@@ -555,22 +521,22 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		var page:String = API_PAGE + '/' + API_VERSION + '/batch/' + DATA_FORMAT + '&game_id=' + game_id;
+		var page:String = '$API_PAGE/$API_VERSION/batch/$DATA_FORMAT&game_id=$game_id';
 
 		for (request in Requests)
-			page += '&requests[]=' + request;
+			page += '&requests[]=$request';
 
 		if (Parallel != null)
-			page += '&parallel=' + Parallel;
+			page += '&parallel=$Parallel';
 		else if (Break_On_Error != null)
-			page += '&break_on_error=' + Break_On_Error;
+			page += '&break_on_error=$Break_On_Error';
 
 		postData(page, true, true, onSucceed, onFail);
 	}
 
 	private static function postData(url:String, post:Bool = false, encode:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
-		url += '&signature=' + Md5.encode(url + private_key);
+		url += '&signature=${Md5.encode(url + private_key)}';
 
 		#if (target.threaded)
 		Thread.create(function()
@@ -625,4 +591,4 @@ class GameJolt
 	}
 }
 
-abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
+private abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
