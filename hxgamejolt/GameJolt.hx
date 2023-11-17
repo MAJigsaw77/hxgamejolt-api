@@ -9,7 +9,13 @@ import sys.thread.Thread;
 
 enum SessionStatus
 {
+	/**
+	 * Sets the session to the `active` state.
+	 */
 	Active;
+	/**
+	 * Sets the session to the `idle` state.
+	 */
 	Idle;
 }
 
@@ -76,7 +82,7 @@ class GameJolt
 
 		if (UserName != null && UserName.length > 0)
 			page += '&username=$UserName';
-		else if (User_ID != null)
+		else if (User_ID != null && User_ID.length > 0)
 			page += '&user_id=${User_ID.length > 1 ? User_ID.join(',') : User_ID[0]}';
 
 		postData(page, false, false, onSucceed, onFail);
@@ -232,7 +238,7 @@ class GameJolt
 	 * @param onSucceed A callback returned when the request succeed.
 	 * @param onFail A callback returned when the request failed.
 	 */
-	public static function fetchScore(?Limit:Int, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int,
+	public static function fetchScore(?Limit:Int = 10, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int,
 			?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		if (game_id == null && private_key == null)
@@ -241,7 +247,12 @@ class GameJolt
 		var page:String = '$API_PAGE/$API_VERSION/scores/$DATA_FORMAT&game_id=$game_id';
 
 		if (Limit != null)
+		{
+			if (Limit >= 100)
+				Limit = 100;
+
 			page += '&limit=$Limit';
+		}
 
 		if (Table_ID != null)
 			page += '&table_id=$Table_ID';
