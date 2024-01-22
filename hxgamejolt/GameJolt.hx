@@ -24,11 +24,19 @@ enum SessionStatus
  */
 class GameJolt
 {
+	@:noCompletion
 	private static final API_PAGE:String = 'https://api.gamejolt.com/api/game';
+
+	@:noCompletion
 	private static final API_VERSION:String = 'v1_2';
+
+	@:noCompletion
 	private static final DATA_FORMAT:String = '?format=json';
 
+	@:noCompletion
 	private static var game_id:String;
+
+	@:noCompletion
 	private static var private_key:String;
 
 	/**
@@ -534,6 +542,7 @@ class GameJolt
 		postData(page, true, true, onSucceed, onFail);
 	}
 
+	@:noCompletion
 	private static function postData(url:String, post:Bool = false, encode:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
 		url += '&signature=${Md5.encode(url + private_key)}';
