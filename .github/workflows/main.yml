@@ -13,4 +13,7 @@ jobs:
           haxe-version: latest
 
       - name: Compiling
-        run: cd test && haxe build.hxml
+        run: |
+          haxelib dev hxgamejolt-api .
+          cd test
+          haxe build.hxml
