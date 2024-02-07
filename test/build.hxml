@@ -1,3 +1,4 @@
 --interp
+-cp ./
 -D analyzer-optimize
 -main Main
