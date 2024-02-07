@@ -13,7 +13,7 @@ class Main
 			// your code
 		}, function(message:String):Void
 		{
-			// your code
+			Sys.println(message);
 		});
 
 		GameJolt.fetchUser('user name', [], function(json:Dynamic):Void
@@ -21,7 +21,7 @@ class Main
 			// your code
 		}, function(message:String):Void
 		{
-			// your code
+			Sys.println(message);
 		});
 	}
 }
