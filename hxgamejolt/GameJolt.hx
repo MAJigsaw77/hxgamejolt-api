@@ -13,6 +13,7 @@ enum SessionStatus
 	 * Sets the session to the `active` state.
 	 */
 	Active;
+
 	/**
 	 * Sets the session to the `idle` state.
 	 */
@@ -548,7 +549,7 @@ class GameJolt
 		url += '&signature=${Md5.encode(url + private_key)}';
 
 		#if (target.threaded)
-		Thread.create(function()
+		Thread.create(function():Void
 		{
 			var http:Http = new Http(encode ? StringTools.urlEncode(url) : url);
 			http.onData = function(data:String)
