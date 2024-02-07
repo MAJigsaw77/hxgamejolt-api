@@ -13,4 +13,4 @@ jobs:
           haxe-version: latest
 
       - name: Compiling
-        run: haxe test/build.hxml
+        run: cd test && haxe build.hxml
