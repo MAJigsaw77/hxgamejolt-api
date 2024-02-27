@@ -552,6 +552,20 @@ class GameJolt
 		Thread.create(function():Void
 		{
 			var http:Http = new Http(encode ? StringTools.urlEncode(url) : url);
+			http.onStatus = function(status:Int):Void
+			{
+				if (status >= 300 && status < 400)
+				{
+					if (http.responseHeaders.exists('Location'))
+					{
+						http.url = http.responseHeaders.get('Location');
+
+						http.request(post);
+					}
+					else if (onFail != null)
+						onFail('Redirect location header missing');
+				}
+			}
 			http.onData = function(data:String)
 			{
 				final response:Dynamic = Json.parse(data).response;
@@ -576,7 +590,21 @@ class GameJolt
 		});
 		#else
 		var http:Http = new Http(encode ? StringTools.urlEncode(url) : url);
-		http.onData = function(data:String)
+		http.onStatus = function(status:Int):Void
+		{
+			if (status >= 300 && status < 400)
+			{
+				if (http.responseHeaders.exists('Location'))
+				{
+					http.url = http.responseHeaders.get('Location');
+
+					http.request(post);
+				}
+				else if (onFail != null)
+					onFail('Redirect location header missing');
+			}
+		}
+		http.onData = function(data:String):Void
 		{
 			final response:Dynamic = Json.parse(data).response;
 
@@ -591,7 +619,7 @@ class GameJolt
 					onFail(response.message);
 			}
 		}
-		http.onError = function(message:String)
+		http.onError = function(message:String):Void
 		{
 			if (onFail != null)
 				onFail(message);
