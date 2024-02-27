@@ -23,5 +23,7 @@ class Main
 		{
 			Sys.println(message);
 		});
+
+		Sys.sleep(10);
 	}
 }
