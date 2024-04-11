@@ -551,22 +551,22 @@ class GameJolt
 		#if (target.threaded)
 		Thread.create(function():Void
 		{
-			var http:Http = new Http(encode ? StringTools.urlEncode(url) : url);
-			http.onStatus = function(status:Int):Void
+			var request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
+			request.onStatus = function(status:Int):Void
 			{
 				if (status >= 300 && status < 400)
 				{
-					if (http.responseHeaders.exists('Location'))
+					if (request.responseHeaders.exists('Location'))
 					{
-						http.url = http.responseHeaders.get('Location');
+						request.url = request.responseHeaders.get('Location');
 
-						http.request(post);
+						request.request(post);
 					}
 					else if (onFail != null)
 						onFail('Redirect location header missing');
 				}
 			}
-			http.onData = function(data:String)
+			request.onData = function(data:String)
 			{
 				final response:Dynamic = Json.parse(data).response;
 
@@ -581,30 +581,30 @@ class GameJolt
 						onFail(response.message);
 				}
 			}
-			http.onError = function(message:String)
+			request.onError = function(message:String)
 			{
 				if (onFail != null)
 					onFail(message);
 			}
-			http.request(post);
+			request.request(post);
 		});
 		#else
-		var http:Http = new Http(encode ? StringTools.urlEncode(url) : url);
-		http.onStatus = function(status:Int):Void
+		var request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
+		request.onStatus = function(status:Int):Void
 		{
 			if (status >= 300 && status < 400)
 			{
-				if (http.responseHeaders.exists('Location'))
+				if (request.responseHeaders.exists('Location'))
 				{
-					http.url = http.responseHeaders.get('Location');
+					request.url = request.responseHeaders.get('Location');
 
-					http.request(post);
+					request.request(post);
 				}
 				else if (onFail != null)
 					onFail('Redirect location header missing');
 			}
 		}
-		http.onData = function(data:String):Void
+		request.onData = function(data:String):Void
 		{
 			final response:Dynamic = Json.parse(data).response;
 
@@ -619,12 +619,15 @@ class GameJolt
 					onFail(response.message);
 			}
 		}
-		http.onError = function(message:String):Void
+		request.onError = function(message:String):Void
 		{
 			if (onFail != null)
 				onFail(message);
 		}
-		http.request(post);
+		#if js
+		request.async = true;
+		#end
+		request.request(post);
 		#end
 	}
 }
