@@ -546,49 +546,23 @@ class GameJolt
 	@:noCompletion
 	private static function postData(url:String, post:Bool = false, encode:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
-		url += '&signature=${Md5.encode(url + private_key)}';
+		final signature:String = Md5.encode(url + private_key);
+
+		url += '&signature=$signature';
 
 		#if (target.threaded)
 		Thread.create(function():Void
 		{
-			var request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
-			request.onStatus = function(status:Int):Void
-			{
-				if (status >= 300 && status < 400)
-				{
-					if (request.responseHeaders.exists('Location'))
-					{
-						request.url = request.responseHeaders.get('Location');
-
-						request.request(post);
-					}
-					else if (onFail != null)
-						onFail('Redirect location header missing');
-				}
-			}
-			request.onData = function(data:String)
-			{
-				final response:Dynamic = Json.parse(data).response;
-
-				if (response.success == 'true')
-				{
-					if (onSucceed != null)
-						onSucceed(response);
-				}
-				else if (response.message != null && response.message.length > 0)
-				{
-					if (onFail != null)
-						onFail(response.message);
-				}
-			}
-			request.onError = function(message:String)
-			{
-				if (onFail != null)
-					onFail(message);
-			}
-			request.request(post);
+			makeHttpRequest(url, post, encode, onSucceed, onFail);
 		});
 		#else
+		makeHttpRequest(url, post, encode, onSucceed, onFail);
+		#end
+	}
+
+	@:noCompletion
+	private static function makeHttpRequest(url:String, post:Bool, encode:Bool, onSucceed:Dynamic->Void, onFail:String->Void):Void
+	{
 		var request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
 		request.onStatus = function(status:Int):Void
 		{
@@ -597,7 +571,6 @@ class GameJolt
 				if (request.responseHeaders.exists('Location'))
 				{
 					request.url = request.responseHeaders.get('Location');
-
 					request.request(post);
 				}
 				else if (onFail != null)
@@ -628,7 +601,6 @@ class GameJolt
 		request.async = true;
 		#end
 		request.request(post);
-		#end
 	}
 }
 
