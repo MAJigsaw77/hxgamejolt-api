@@ -9,7 +9,7 @@ class Main
 		GameJolt.init('game id', 'private key');
 
 		GameJolt.authUser('user name', 'user token', {
-			onSuccess: function(json:Dynamic):Void
+			onSucceed: function(json:Dynamic):Void
 			{
 				// your code
 			},
@@ -20,7 +20,7 @@ class Main
 		});
 
 		GameJolt.fetchUser('user name', [], {
-			onSuccess: function(json:Dynamic):Void
+			onSucceed: function(json:Dynamic):Void
 			{
 				// your code
 			},
