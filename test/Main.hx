@@ -8,20 +8,26 @@ class Main
 	{
 		GameJolt.init('game id', 'private key');
 
-		GameJolt.authUser('user name', 'user token', function(json:Dynamic):Void
-		{
-			// your code
-		}, function(message:String):Void
-		{
-			Sys.println(message);
+		GameJolt.authUser('user name', 'user token', {
+			onSuccess: function(json:Dynamic):Void
+			{
+				// your code
+			},
+			onFail: function(message:String):Void
+			{
+				Sys.println(message);
+			}
 		});
 
-		GameJolt.fetchUser('user name', [], function(json:Dynamic):Void
-		{
-			// your code
-		}, function(message:String):Void
-		{
-			Sys.println(message);
+		GameJolt.fetchUser('user name', [], {
+			onSuccess: function(json:Dynamic):Void
+			{
+				// your code
+			},
+			onFail: function(message:String):Void
+			{
+				Sys.println(message);
+			}
 		});
 
 		Sys.sleep(10);
