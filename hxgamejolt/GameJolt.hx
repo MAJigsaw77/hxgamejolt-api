@@ -21,6 +21,19 @@ enum SessionStatus
 	Idle;
 }
 
+typedef Response =
+{
+	/**
+	 * The callback function to be executed on success.
+	 */
+	onSucceed:Dynamic->Void,
+
+	/**
+	 * The callback function to be executed on failure.
+	 */
+	onFail:String->Void
+}
+
 /**
  * @see https://gamejolt.com/game-api/doc
  */
@@ -63,15 +76,15 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function authUser(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function authUser(UserName:String, User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/users/auth/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/users/auth/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
+			Response.onSucceed, Response.onFail);
 	}
 
 	/**
@@ -80,10 +93,9 @@ class GameJolt
 	 * @param UserName username of the user you'd like to fetch the data from.
 	 * @param User_ID The ID of the user you'd like to fetch the data from.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchUser(UserName:String, User_ID:Array<Int>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function fetchUser(UserName:String, User_ID:Array<Int>, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -95,7 +107,7 @@ class GameJolt
 		else if (User_ID != null && User_ID.length > 0)
 			page += '&user_id=${User_ID.length > 1 ? User_ID.join(',') : Std.string(User_ID[0])}';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -105,10 +117,9 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function openSessions(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function openSessions(UserName:String, User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -126,10 +137,9 @@ class GameJolt
 	 * @param User_Token The user's token.
 	 * @param Status Sets the status of the session.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function pingSessions(UserName:String, User_Token:String, ?Status:Null<SessionStatus>, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function pingSessions(UserName:String, User_Token:String, ?Status:Null<SessionStatus>, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -139,7 +149,7 @@ class GameJolt
 		if (Status != null)
 			page += '&status=${Status.getName().toLowerCase()}';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -149,10 +159,9 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function checkSessions(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function checkSessions(UserName:String, User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -167,10 +176,9 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function closeSessions(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function closeSessions(UserName:String, User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -190,11 +198,10 @@ class GameJolt
 	 * @param Extra_Data If there's any extra data you would like to store as a string, you can use this variable.
 	 * @param Table_ID The ID of the score table to submit to.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_Data:String, ?Table_ID:Int,
-			?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+			?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -214,7 +221,7 @@ class GameJolt
 		if (Table_ID != null)
 			page += '&table_id=$Table_ID';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -223,15 +230,15 @@ class GameJolt
 	 * @param Sort This is a numerical sorting value that is represented by a rank on the score table.
 	 * @param Table_ID The ID of the score table from which you want to get the rank.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/scores/get-rank/$DATA_FORMAT&game_id=$game_id&sort=Sort&table_id=$Table_ID', false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/scores/get-rank/$DATA_FORMAT&game_id=$game_id&sort=Sort&table_id=$Table_ID', false, false,
+			Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -245,11 +252,10 @@ class GameJolt
 	 * @param Better_than Fetch only scores better than this score sort value.
 	 * @param Worse_than Fetch only scores worse than this score sort value.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function fetchScore(?Limit:Int = 10, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int,
-			?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+			?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -277,22 +283,22 @@ class GameJolt
 		if (Worse_than != null)
 			page += '&worse_than=$Worse_than';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
 	 * Returns a list of high score tables for a game.
 	 *
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function scoreTables(?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function scoreTables(?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/scores/tables/$DATA_FORMAT&game_id=$game_id', false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/scores/tables/$DATA_FORMAT&game_id=$game_id', false, false, Reponse != null ? Reponse.onSucceed : null,
+			Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -303,8 +309,7 @@ class GameJolt
 	 * @param Achieved Pass in true to return only the achieved trophies for a user. Pass in false to return only trophies the user hasn't achieved. Leave null to retrieve all trophies.
 	 * @param Trophy_id If you would like to return just one trophy, you may pass the trophy ID with this parameter. If you do, only that trophy will be returned in the response. You may also pass multiple trophy IDs here if you want to return a subset of all the trophies. You do this as a comma-separated list in the same way you would for retrieving multiple users. Passing a `Trophy_ID` will ignore the `Achieved` parameter if it is passed.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Int = 0, ?onSucceed:Dynamic->Void,
 			?onFail:String->Void):Void
@@ -319,7 +324,7 @@ class GameJolt
 		else if (Trophy_ID > 0)
 			page += '&trophy_id=$Trophy_ID';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -329,16 +334,15 @@ class GameJolt
 	 * @param User_Token The user's token.
 	 * @param Trophy_id The ID of the trophy to add for the user.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/trophies/add-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID',
-			false, false, onSucceed, onFail);
+			false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -348,16 +352,15 @@ class GameJolt
 	 * @param User_Token The user's token.
 	 * @param Trophy_id The ID of the trophy to remove from the user.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/trophies/remove-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID',
-			false, false, onSucceed, onFail);
+			false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -367,10 +370,9 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -380,7 +382,7 @@ class GameJolt
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=$UserName&user_token=$User_Token';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -390,10 +392,9 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -406,7 +407,7 @@ class GameJolt
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=' + UserName + '&user_token=' + User_Token;
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -416,10 +417,9 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -429,7 +429,7 @@ class GameJolt
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=$UserName&user_token=$User_Token';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -440,8 +440,7 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void,
 			?onFail:String->Void):Void
@@ -454,7 +453,7 @@ class GameJolt
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=$UserName&user_token=$User_Token';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -466,11 +465,10 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function updateDataFromDataStore(Key:String, Operation:String, Value:OneOfTwo<String, Int>, ?UserName:String, ?User_Token:String,
-			?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+			?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -480,7 +478,7 @@ class GameJolt
 		if ((UserName != null && UserName.length > 0) && (User_Token != null && User_Token.length > 0))
 			page += '&username=$UserName&user_token=$User_Token';
 
-		postData(page, false, false, onSucceed, onFail);
+		postData(page, false, false, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -489,30 +487,30 @@ class GameJolt
 	 * @param UserName The user's username.
 	 * @param User_Token The user's token.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchFriends(UserName:String, User_Token:String, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function fetchFriends(UserName:String, User_Token:String, ?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/friends/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/friends/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
+			Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
 	 * Returns the time of the Game Jolt server.
 	 *
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchTime(?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	public static function fetchTime(?Response:Response):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/time/$DATA_FORMAT&game_id=$game_id', false, false, onSucceed, onFail);
+		postData('$API_PAGE/$API_VERSION/time/$DATA_FORMAT&game_id=$game_id', false, false, Reponse != null ? Reponse.onSucceed : null,
+			Reponse != null ? Reponse.onFail : null);
 	}
 
 	/**
@@ -522,8 +520,7 @@ class GameJolt
 	 * @param Break_On_Error If this is set to true, one sub-request failure will cause the entire batch to stop processing subsequent sub-requests and return a value of false for success.
 	 * @param Requests An array of sub-request URLs. Each request will be executed and the responses of each one will be returned in the payload. You must URL-encode each sub-request.
 	 *
-	 * @param onSucceed A callback returned when the request succeed.
-	 * @param onFail A callback returned when the request failed.
+	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function batchRequest(?Parallel:Null<Bool>, ?Break_On_Error:Null<Bool>, Requests:Array<String>, ?onSucceed:Dynamic->Void,
 			?onFail:String->Void):Void
@@ -541,7 +538,7 @@ class GameJolt
 		else if (Break_On_Error != null)
 			page += '&break_on_error=$Break_On_Error';
 
-		postData(page, true, true, onSucceed, onFail);
+		postData(page, true, true, Reponse != null ? Reponse.onSucceed : null, Reponse != null ? Reponse.onFail : null);
 	}
 
 	@:noCompletion
@@ -552,10 +549,7 @@ class GameJolt
 		url += '&signature=$signature';
 
 		#if (target.threaded)
-		Thread.create(function():Void
-		{
-			makeHttpRequest(url, post, encode, onSucceed, onFail);
-		});
+		Thread.create(() -> makeHttpRequest(url, post, encode, onSucceed, onFail));
 		#else
 		makeHttpRequest(url, post, encode, onSucceed, onFail);
 		#end
