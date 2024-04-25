@@ -21,7 +21,7 @@ enum SessionStatus
 	Idle;
 }
 
-typedef Response =
+typedef ResponseCallbacks =
 {
 	/**
 	 * The callback function to be executed on success.
@@ -78,7 +78,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function authUser(UserName:String, User_Token:String, ?Response:Response):Void
+	public static function authUser(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -95,7 +95,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchUser(UserName:String, User_ID:Array<Int>, ?Response:Response):Void
+	public static function fetchUser(UserName:String, User_ID:Array<Int>, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -119,7 +119,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function openSessions(UserName:String, User_Token:String, ?Response:Response):Void
+	public static function openSessions(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -139,7 +139,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function pingSessions(UserName:String, User_Token:String, ?Status:Null<SessionStatus>, ?Response:Response):Void
+	public static function pingSessions(UserName:String, User_Token:String, ?Status:Null<SessionStatus>, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -161,7 +161,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function checkSessions(UserName:String, User_Token:String, ?Response:Response):Void
+	public static function checkSessions(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -178,7 +178,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function closeSessions(UserName:String, User_Token:String, ?Response:Response):Void
+	public static function closeSessions(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -201,7 +201,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_Data:String, ?Table_ID:Int,
-			?Response:Response):Void
+			?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -232,7 +232,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?Response:Response):Void
+	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -255,7 +255,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function fetchScore(?Limit:Int = 10, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int,
-			?Response:Response):Void
+			?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -292,7 +292,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function scoreTables(?Response:Response):Void
+	public static function scoreTables(?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -336,7 +336,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:Response):Void
+	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -354,7 +354,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:Response):Void
+	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -372,7 +372,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:Response):Void
+	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -394,7 +394,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?Response:Response):Void
+	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -419,7 +419,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:Response):Void
+	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -468,7 +468,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 */
 	public static function updateDataFromDataStore(Key:String, Operation:String, Value:OneOfTwo<String, Int>, ?UserName:String, ?User_Token:String,
-			?Response:Response):Void
+			?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -489,7 +489,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchFriends(UserName:String, User_Token:String, ?Response:Response):Void
+	public static function fetchFriends(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -504,7 +504,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchTime(?Response:Response):Void
+	public static function fetchTime(?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
