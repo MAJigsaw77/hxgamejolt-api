@@ -3,6 +3,7 @@ package hxgamejolt;
 import haxe.crypto.Md5;
 import haxe.Http;
 import haxe.Json;
+import hxgamejolt.util.OneOfTwo;
 #if (target.threaded)
 import sys.thread.Thread;
 #end
@@ -603,6 +604,3 @@ class GameJolt
 		request.request(post);
 	}
 }
-
-@:noCompletion
-private abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 {}
