@@ -22,20 +22,26 @@ import hxgamejolt.GameJolt; // be sure you import this.
 
 GameJolt.init('game id', 'private key');
 
-GameJolt.authUser('user name', 'user token', function(json:Dynamic) // on Succeed
-{
-	// your code
-}, function(message:String) // on Failure
-{
-	// your code
+GameJolt.authUser('user name', 'user token', {
+	onSucceed: function(json:Dynamic):Void
+	{
+		// your code
+	},
+	onFail: function(message:String):Void
+	{
+		Sys.println(message);
+	}
 });
 
-GameJolt.fetchUser('user name', [], function(json:Dynamic) // on Succeed
-{
-	// your code
-}, function(message:String) // on Failure
-{
-	// your code
+GameJolt.fetchUser('user name', [], {
+	onSucceed: function(json:Dynamic):Void
+	{
+		// your code
+	},
+	onFail: function(message:String):Void
+	{
+		Sys.println(message);
+	}
 });
 ```
 
