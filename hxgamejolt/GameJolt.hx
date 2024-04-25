@@ -84,7 +84,7 @@ class GameJolt
 			return;
 
 		postData('$API_PAGE/$API_VERSION/users/auth/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
-			Response.onSucceed, Response.onFail);
+			Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -124,8 +124,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/sessions/open/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed,
-			onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/open/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -166,8 +165,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/sessions/check/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed,
-			onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/check/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -183,8 +181,7 @@ class GameJolt
 		if (game_id == null && private_key == null)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/sessions/close/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, onSucceed,
-			onFail);
+		postData('$API_PAGE/$API_VERSION/sessions/close/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -442,8 +439,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?User_Token:String, ?onSucceed:Dynamic->Void,
-			?onFail:String->Void):Void
+	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
@@ -522,8 +518,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function batchRequest(?Parallel:Null<Bool>, ?Break_On_Error:Null<Bool>, Requests:Array<String>, ?onSucceed:Dynamic->Void,
-			?onFail:String->Void):Void
+	public static function batchRequest(?Parallel:Null<Bool>, ?Break_On_Error:Null<Bool>, Requests:Array<String>, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
