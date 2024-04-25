@@ -308,8 +308,7 @@ class GameJolt
 	 *
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Int = 0, ?onSucceed:Dynamic->Void,
-			?onFail:String->Void):Void
+	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Int = 0, ?Response:ResponseCallbacks):Void
 	{
 		if (game_id == null && private_key == null)
 			return;
