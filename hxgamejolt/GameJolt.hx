@@ -39,6 +39,11 @@ typedef ResponseCallbacks =
  */
 class GameJolt
 {
+	/**
+	 * Indicates whether the ID and Private Key has been successfully set up.
+	 */
+	public static var initialized(get, never):Bool;
+
 	@:noCompletion
 	private static final API_PAGE:String = 'https://api.gamejolt.com/api/game';
 
@@ -80,7 +85,7 @@ class GameJolt
 	 */
 	public static function authUser(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/users/auth/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
@@ -97,7 +102,7 @@ class GameJolt
 	 */
 	public static function fetchUser(UserName:String, User_ID:Array<Int>, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/users/$DATA_FORMAT&game_id=$game_id';
@@ -121,7 +126,7 @@ class GameJolt
 	 */
 	public static function openSessions(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/sessions/open/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
@@ -140,7 +145,7 @@ class GameJolt
 	 */
 	public static function pingSessions(UserName:String, User_Token:String, ?Status:Null<SessionStatus>, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/sessions/ping/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token';
@@ -162,7 +167,7 @@ class GameJolt
 	 */
 	public static function checkSessions(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/sessions/check/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
@@ -178,7 +183,7 @@ class GameJolt
 	 */
 	public static function closeSessions(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/sessions/close/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
@@ -200,7 +205,7 @@ class GameJolt
 	public static function addScore(?UserName:String, ?User_Token:String, ?Guest:String, Score:String, Sort:Int, ?Extra_Data:String, ?Table_ID:Int,
 			?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/scores/add/$DATA_FORMAT&game_id=$game_id';
@@ -231,7 +236,7 @@ class GameJolt
 	 */
 	public static function getScoreRank(Sort:Int, ?Table_ID:Int, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/scores/get-rank/$DATA_FORMAT&game_id=$game_id&sort=Sort&table_id=$Table_ID', false, false,
@@ -254,7 +259,7 @@ class GameJolt
 	public static function fetchScore(?Limit:Int = 10, ?Table_ID:Int, ?UserName:String, ?User_Token:String, ?Guest:String, ?Better_than:Int, ?Worse_than:Int,
 			?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/scores/$DATA_FORMAT&game_id=$game_id';
@@ -291,7 +296,7 @@ class GameJolt
 	 */
 	public static function scoreTables(?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/scores/tables/$DATA_FORMAT&game_id=$game_id', false, false, Response != null ? Response.onSucceed : null,
@@ -310,7 +315,7 @@ class GameJolt
 	 */
 	public static function fetchTrophy(UserName:String, User_Token:String, ?Achieved:Null<Bool>, ?Trophy_ID:Int = 0, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/trophies/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token';
@@ -334,7 +339,7 @@ class GameJolt
 	 */
 	public static function addTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/trophies/add-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID',
@@ -352,7 +357,7 @@ class GameJolt
 	 */
 	public static function removeTrophy(UserName:String, User_Token:String, Trophy_ID:Int, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/trophies/remove-achieved/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token&trophy_id=$Trophy_ID',
@@ -370,7 +375,7 @@ class GameJolt
 	 */
 	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/$DATA_FORMAT&game_id=$game_id&key=$Key';
@@ -392,7 +397,7 @@ class GameJolt
 	 */
 	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/get-keys/$DATA_FORMAT&game_id=$game_id';
@@ -417,7 +422,7 @@ class GameJolt
 	 */
 	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/remove/$DATA_FORMAT&game_id=$game_id&key=$Key';
@@ -440,7 +445,7 @@ class GameJolt
 	 */
 	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/set/$DATA_FORMAT&game_id=$game_id&key=$Key&data=$Data';
@@ -465,7 +470,7 @@ class GameJolt
 	public static function updateDataFromDataStore(Key:String, Operation:String, Value:OneOfTwo<String, Int>, ?UserName:String, ?User_Token:String,
 			?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/data-store/update/$DATA_FORMAT&game_id=$game_id&key=$Key&operation=$Operation&value=$Value';
@@ -486,7 +491,7 @@ class GameJolt
 	 */
 	public static function fetchFriends(UserName:String, User_Token:String, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/friends/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
@@ -501,7 +506,7 @@ class GameJolt
 	 */
 	public static function fetchTime(?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		postData('$API_PAGE/$API_VERSION/time/$DATA_FORMAT&game_id=$game_id', false, false, Response != null ? Response.onSucceed : null,
@@ -519,7 +524,7 @@ class GameJolt
 	 */
 	public static function batchRequest(?Parallel:Null<Bool>, ?Break_On_Error:Null<Bool>, Requests:Array<String>, ?Response:ResponseCallbacks):Void
 	{
-		if (game_id == null && private_key == null)
+		if (!initialized)
 			return;
 
 		var page:String = '$API_PAGE/$API_VERSION/batch/$DATA_FORMAT&game_id=$game_id';
@@ -590,5 +595,11 @@ class GameJolt
 		request.async = true;
 		#end
 		request.request(post);
+	}
+
+	@:noCompletion
+	private static function get_initialized():Bool
+	{
+		return (game_id != null && game_id.length > 0) && (private_key != null && private_key.length > 0);
 	}
 }
