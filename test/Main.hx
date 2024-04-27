@@ -20,14 +20,14 @@ class Main
 		});
 
 		GameJolt.fetchUser('user name', [], {
-			onSucceed: function(json:Dynamic):Void
+			/*onSucceed: function(json:Dynamic):Void
 			{
 				// your code
 			},
 			onFail: function(message:String):Void
 			{
 				Sys.println(message);
-			}
+			}*/
 		});
 
 		Sys.sleep(10);
