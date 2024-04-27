@@ -5,6 +5,7 @@ import haxe.Http;
 import haxe.Json;
 import hxgamejolt.util.OneOfTwo;
 #if (target.threaded)
+import sys.thread.Mutex;
 import sys.thread.Thread;
 #end
 
@@ -548,7 +549,16 @@ class GameJolt
 		url += '&signature=$signature';
 
 		#if (target.threaded)
-		Thread.create(() -> makeHttpRequest(url, post, encode, onSucceed, onFail));
+		var requestMutex:Mutex = new Mutex();
+
+		Thread.create(function():Void
+		{
+			requestMutex.acquire();
+
+			makeHttpRequest(url, post, encode, onSucceed, onFail);
+
+			requestMutex.release();
+		});
 		#else
 		makeHttpRequest(url, post, encode, onSucceed, onFail);
 		#end
