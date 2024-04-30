@@ -29,7 +29,7 @@ GameJolt.authUser('user name', 'user token', {
 	},
 	onFail: function(message:String):Void
 	{
-		Sys.println(message);
+		trace(message);
 	}
 });
 
@@ -40,7 +40,7 @@ GameJolt.fetchUser('user name', [], {
 	},
 	onFail: function(message:String):Void
 	{
-		Sys.println(message);
+		trace(message);
 	}
 });
 ```

@@ -15,7 +15,7 @@ class Main
 			},
 			onFail: function(message:String):Void
 			{
-				Sys.println(message);
+				trace(message);
 			}
 		});
 
@@ -26,7 +26,7 @@ class Main
 			},
 			onFail: function(message:String):Void
 			{
-				Sys.println(message);
+				trace(message);
 			}
 		});
 
