@@ -548,8 +548,8 @@ class GameJolt
 
 		url += '&signature=$signature';
 
-		#if (target.threaded)
-		var requestMutex:Mutex = new Mutex();
+		#if (target.threaded && !js)
+		final requestMutex:Mutex = new Mutex();
 
 		Thread.create(function():Void
 		{
