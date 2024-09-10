@@ -1,7 +1,7 @@
 package hxgamejolt;
 
 import haxe.crypto.Md5;
-import haxe.EntryPoint;
+import haxe.MainLoop;
 import haxe.Http;
 import haxe.Json;
 import hxgamejolt.util.OneOfTwo;
@@ -545,7 +545,7 @@ class GameJolt
 
 		url += '&signature=$signature';
 
-		EntryPoint.addThread(makeHttpRequest.bind(url, post, encode, onSucceed, onFail));
+		MainLoop.addThread(makeHttpRequest.bind(url, post, encode, onSucceed, onFail));
 	}
 
 	@:noCompletion
