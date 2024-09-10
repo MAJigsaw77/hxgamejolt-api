@@ -1,9 +1,9 @@
 package hxgamejolt;
 
 import haxe.crypto.Md5;
-import haxe.MainLoop;
 import haxe.Http;
 import haxe.Json;
+import haxe.MainLoop;
 import hxgamejolt.util.OneOfTwo;
 
 enum SessionStatus
