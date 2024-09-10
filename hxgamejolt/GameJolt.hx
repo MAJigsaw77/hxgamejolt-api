@@ -1,13 +1,10 @@
 package hxgamejolt;
 
 import haxe.crypto.Md5;
+import haxe.EntryPoint;
 import haxe.Http;
 import haxe.Json;
 import hxgamejolt.util.OneOfTwo;
-#if (target.threaded)
-import sys.thread.Mutex;
-import sys.thread.Thread;
-#end
 
 enum SessionStatus
 {
@@ -548,20 +545,7 @@ class GameJolt
 
 		url += '&signature=$signature';
 
-		#if (target.threaded && !js)
-		final requestMutex:Mutex = new Mutex();
-
-		Thread.create(function():Void
-		{
-			requestMutex.acquire();
-
-			makeHttpRequest(url, post, encode, onSucceed, onFail);
-
-			requestMutex.release();
-		});
-		#else
-		makeHttpRequest(url, post, encode, onSucceed, onFail);
-		#end
+		EntryPoint.addThread(makeHttpRequest.bind(url, post, encode, onSucceed, onFail));
 	}
 
 	@:noCompletion
