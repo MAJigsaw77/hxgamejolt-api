@@ -551,7 +551,7 @@ class GameJolt
 	@:noCompletion
 	private static function makeHttpRequest(url:String, post:Bool, encode:Bool, onSucceed:Dynamic->Void, onFail:String->Void):Void
 	{
-		var request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
+		final request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
 		request.onStatus = function(status:Int):Void
 		{
 			if (status >= 300 && status < 400)
