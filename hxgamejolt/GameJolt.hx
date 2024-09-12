@@ -562,7 +562,7 @@ class GameJolt
 					request.request(post);
 				}
 				else if (onFail != null)
-					onFail('Redirect location header missing');
+					MainLoop.runInMainThread(() -> onFail('Redirect location header missing'));
 			}
 		}
 		request.onData = function(data:String):Void
@@ -572,18 +572,18 @@ class GameJolt
 			if (response.success == 'true')
 			{
 				if (onSucceed != null)
-					onSucceed(response);
+					MainLoop.runInMainThread(() -> onSucceed(response));
 			}
 			else if (response.message != null && response.message.length > 0)
 			{
 				if (onFail != null)
-					onFail(response.message);
+					MainLoop.runInMainThread(() -> onFail(response.message));
 			}
 		}
 		request.onError = function(message:String):Void
 		{
 			if (onFail != null)
-				onFail(message);
+				MainLoop.runInMainThread(() -> onFail(message));
 		}
 		#if js
 		request.async = true;
