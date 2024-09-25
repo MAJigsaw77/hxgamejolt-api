@@ -35,6 +35,7 @@ typedef ResponseCallbacks =
 /**
  * @see https://gamejolt.com/game-api/doc
  */
+@:nullSafety
 class GameJolt
 {
 	/**
@@ -127,7 +128,8 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/sessions/open/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
+		postData('$API_PAGE/$API_VERSION/sessions/open/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
+			Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -168,7 +170,8 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/sessions/check/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
+		postData('$API_PAGE/$API_VERSION/sessions/check/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
+			Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -184,7 +187,8 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/sessions/close/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
+		postData('$API_PAGE/$API_VERSION/sessions/close/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
+			Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -554,15 +558,24 @@ class GameJolt
 		final request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
 		request.onStatus = function(status:Int):Void
 		{
-			if (status >= 300 && status < 400)
+			final responseURL:Null<String> = request.responseHeaders.get('Location');
+
+			if (responseURL != null && (status >= 300 && status < 400))
 			{
-				if (request.responseHeaders.exists('Location'))
+				request.url = responseURL;
+				request.request(post);
+			}
+			else if (status >= 300 && status < 400)
+			{
+				if (onFail != null)
 				{
-					request.url = request.responseHeaders.get('Location');
-					request.request(post);
+					final responseData:Null<String> = request.responseData;
+
+					if (responseData != null && responseData.length > 0)
+						MainLoop.runInMainThread(() -> onFail('Redirect location header missing', Json.parse(responseData)));
+					else
+						MainLoop.runInMainThread(() -> onFail('Redirect location header missing', null));
 				}
-				else if (onFail != null)
-					MainLoop.runInMainThread(() -> onFail('Redirect location header missing'));
 			}
 		}
 		request.onData = function(data:String):Void
