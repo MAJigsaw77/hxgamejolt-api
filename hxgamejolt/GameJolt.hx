@@ -553,7 +553,7 @@ class GameJolt
 	}
 
 	@:noCompletion
-	private static function makeHttpRequest(url:String, post:Bool, encode:Bool, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
+	private static function makeHttpRequest(url:String, post:Bool, encode:Bool, onSucceed:Null<Dynamic->Void>, onFail:Null<String->Void>):Void
 	{
 		final request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
 		request.onStatus = function(status:Int):Void
