@@ -53,10 +53,10 @@ class GameJolt
 	private static final DATA_FORMAT:String = '?format=json';
 
 	@:noCompletion
-	private static var game_id:String;
+	private static var game_id:Null<String>;
 
 	@:noCompletion
-	private static var private_key:String;
+	private static var private_key:Null<String>;
 
 	/**
 	 * @param GameID The ID of your game.
@@ -553,7 +553,7 @@ class GameJolt
 	}
 
 	@:noCompletion
-	private static function makeHttpRequest(url:String, post:Bool, encode:Bool, onSucceed:Dynamic->Void, onFail:String->Void):Void
+	private static function makeHttpRequest(url:String, post:Bool, encode:Bool, ?onSucceed:Dynamic->Void, ?onFail:String->Void):Void
 	{
 		final request:Http = new Http(encode ? StringTools.urlEncode(url) : url);
 		request.onStatus = function(status:Int):Void
