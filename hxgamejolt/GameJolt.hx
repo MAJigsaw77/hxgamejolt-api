@@ -568,14 +568,7 @@ class GameJolt
 			else if (status >= 300 && status < 400)
 			{
 				if (onFail != null)
-				{
-					final responseData:Null<String> = request.responseData;
-
-					if (responseData != null && responseData.length > 0)
-						MainLoop.runInMainThread(() -> onFail('Redirect location header missing', Json.parse(responseData)));
-					else
-						MainLoop.runInMainThread(() -> onFail('Redirect location header missing', null));
-				}
+					MainLoop.runInMainThread(() -> onFail('Redirect location header missing'));
 			}
 		}
 		request.onData = function(data:String):Void
