@@ -24,12 +24,12 @@ typedef ResponseCallbacks =
 	/**
 	 * The callback function to be executed on success.
 	 */
-	onSucceed:Null<Dynamic->Void>,
+	onSucceed:Dynamic->Void,
 
 	/**
 	 * The callback function to be executed on failure.
 	 */
-	onFail:Null<String->Void>
+	onFail:String->Void
 }
 
 /**
@@ -543,7 +543,7 @@ class GameJolt
 	}
 
 	@:noCompletion
-	private static function postData(url:String, post:Bool = false, encode:Bool = false, onSucceed:Dynamic->Void, onFail:String->Void):Void
+	private static function postData(url:String, post:Bool = false, encode:Bool = false, onSucceed:Null<Dynamic->Void>, onFail:Null<String->Void>):Void
 	{
 		final signature:String = Md5.encode(url + private_key);
 
