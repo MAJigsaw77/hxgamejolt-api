@@ -241,8 +241,8 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/scores/get-rank/$DATA_FORMAT&game_id=$game_id&sort=Sort&table_id=$Table_ID', false, false, Response.onSucceed,
-			Response.onFail);
+		postData('$API_PAGE/$API_VERSION/scores/get-rank/$DATA_FORMAT&game_id=$game_id&sort=Sort&table_id=$Table_ID', false, false,
+			Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
@@ -324,7 +324,7 @@ class GameJolt
 
 		if (Achieved != null)
 			page += '&achieved=$Achieved';
-		else if (Trophy_ID > 0)
+		else if (Trophy_ID != null && Trophy_ID > 0)
 			page += '&trophy_id=$Trophy_ID';
 
 		postData(page, false, false, Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
@@ -496,8 +496,8 @@ class GameJolt
 		if (!initialized)
 			return;
 
-		postData('$API_PAGE/$API_VERSION/friends/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false, Response.onSucceed,
-			Response.onFail);
+		postData('$API_PAGE/$API_VERSION/friends/$DATA_FORMAT&game_id=$game_id&username=$UserName&user_token=$User_Token', false, false,
+			Response != null ? Response.onSucceed : null, Response != null ? Response.onFail : null);
 	}
 
 	/**
