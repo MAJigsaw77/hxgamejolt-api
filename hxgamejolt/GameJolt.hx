@@ -24,12 +24,12 @@ typedef ResponseCallbacks =
 	/**
 	 * The callback function to be executed on success.
 	 */
-	onSucceed:Dynamic->Void,
+	onSucceed:Null<Dynamic->Void>,
 
 	/**
 	 * The callback function to be executed on failure.
 	 */
-	onFail:String->Void
+	onFail:Null<String->Void>
 }
 
 /**
