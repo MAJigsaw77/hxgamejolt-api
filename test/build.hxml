@@ -1,5 +1,0 @@
---interp
--cp ./
--D analyzer-optimize
--lib hxgamejolt-api
--main Main
