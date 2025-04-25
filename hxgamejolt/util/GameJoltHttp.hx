@@ -21,7 +21,7 @@ class GameJoltHttp
 
 	/** The data format to be appended to API requests. */
 	@:noCompletion
-	private static final DATA_FORMAT:String = '?format=json';
+	private static final DATA_FORMAT:String = 'format=json';
 
 	/** The constructed API page URL. */
 	@:noCompletion
@@ -31,13 +31,13 @@ class GameJoltHttp
 	@:noCompletion
 	private final urlRequest:String;
 
-	/** The API request URL with an added security signature. */
+	/** The private key required for the URL signature. */
 	@:noCompletion
-	private final urlSigniture:String;
+	private final urlPrivateKey:String;
 
 	/** The HTTP instance for requesting data from the API */
 	@:noCompletion
-	private final urlRequestHttp:Http;
+	private var urlRequestHttp:Null<Http>;
 
 	/**
 	 * Callback function to be executed on a successful request.
@@ -64,50 +64,8 @@ class GameJoltHttp
 	private function new(path:String, parameters:Array<String>, privateKey:String):Void
 	{
 		urlPage = Path.join([API_PAGE, API_VERSION]);
-		urlRequest = Path.join([path, [DATA_FORMAT].concat(parameters).join('&')]);
-		urlSigniture = '&signature=' + Md5.encode(Path.join([urlPage, urlRequest]) + privateKey);
-
-		urlRequestHttp = new Http(Path.join([urlPage, urlRequest]) + urlSigniture);
-		#if (js && !HXGAMEJOLT_NO_THREADING)
-		urlRequestHttp.async = true;
-		#end
-		urlRequestHttp.onStatus = function(status:Int):Void
-		{
-			final responseURL:Null<String> = urlRequestHttp.responseHeaders.get('Location');
-
-			if (responseURL != null && (status >= 300 && status < 400))
-			{
-				urlRequestHttp.url = responseURL;
-				urlRequestHttp.request();
-			}
-			else if (status >= 300 && status < 400)
-			{
-				if (onFail != null)
-					MainLoop.runInMainThread(onFail.bind('Redirect location header missing'));
-			}
-		}
-		urlRequestHttp.onData = function(data:String):Void
-		{
-			final response:Dynamic = Json.parse(data).response;
-
-			if (response.success == 'true')
-			{
-				Reflect.deleteField(response, 'success');
-
-				if (onSucceed != null)
-					MainLoop.runInMainThread(onSucceed.bind(response));
-			}
-			else if (response.message != null && response.message.length > 0)
-			{
-				if (onFail != null)
-					MainLoop.runInMainThread(onFail.bind(response.message));
-			}
-		}
-		urlRequestHttp.onError = function(message:String):Void
-		{
-			if (onFail != null)
-				MainLoop.runInMainThread(onFail.bind(message));
-		}
+		urlRequest = Path.join(['/', path, '?' + [DATA_FORMAT].concat(parameters).join('&')]);
+		urlPrivateKey = privateKey;
 	}
 
 	/**
@@ -115,10 +73,97 @@ class GameJoltHttp
 	 */
 	public function requestData():Void
 	{
+		urlRequestHttp = new Http(createRequest(Path.join([urlPage, urlRequest])));
+
+		#if (js && !HXGAMEJOLT_NO_THREADING)
+		urlRequestHttp.async = true;
+		#end
+
+		urlRequestHttp.onStatus = function(status:Int):Void
+		{
+			if (urlRequestHttp != null)
+			{
+				final responseURL:Null<String> = urlRequestHttp.responseHeaders.get('Location');
+
+				if (responseURL != null && (status >= 300 && status < 400))
+				{
+					urlRequestHttp.url = responseURL;
+
+					#if !HXGAMEJOLT_NO_THREADING
+					MainLoop.addThread(function():Void
+					{
+						if (urlRequestHttp != null)
+							urlRequestHttp.request();
+					});
+					#else
+					urlRequestHttp.request();
+					#end
+				}
+				else if (status >= 300 && status < 400)
+					dispatchFail('Redirect location header missing');
+			}
+		}
+
+		urlRequestHttp.onData = function(data:String):Void
+		{
+			dispatchData(Json.parse(data).response);
+		}
+
+		urlRequestHttp.onError = function(message:String):Void
+		{
+			dispatchFail(message);
+		}
+
 		#if !HXGAMEJOLT_NO_THREADING
-		MainLoop.addThread(urlRequestHttp.request.bind());
+		MainLoop.addThread(function():Void
+		{
+			if (urlRequestHttp != null)
+				urlRequestHttp.request();
+		});
 		#else
 		urlRequestHttp.request();
 		#end
+	}
+
+	@:noCompletion
+	private function dispatchData(response:Dynamic):Void
+	{
+		if (response.success == 'true')
+		{
+			Reflect.deleteField(response, 'success');
+
+			if (onSucceed != null)
+				onSucceed(response);
+		}
+		else if (response.message != null && response.message.length > 0)
+		{
+			if (onFail != null)
+				onFail(response.message);
+		}
+	}
+
+	@:noCompletion
+	private function dispatchFail(message:String):Void
+	{
+		if (onFail != null)
+			onFail(message);
+	}
+
+	@:noCompletion
+	private inline function createRequest(url:String):String
+	{
+		return url + createSigniture(url);
+	}
+
+	@:noCompletion
+	private inline function createBatchRequest(url:String):String
+	{
+		return StringTools.urlEncode(createRequest(StringTools.replace(url, '${GameJoltHttp.DATA_FORMAT}&', '')));
+	}
+
+	@:noCompletion
+	private inline function createSigniture(url:String):String
+	{
+		return '&signature=' + Md5.encode(url + urlPrivateKey);
 	}
 }
