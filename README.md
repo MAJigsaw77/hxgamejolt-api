@@ -18,9 +18,11 @@ haxelib git hxgamejolt-api https://github.com/MAJigsaw77/hxgamejolt-api.git
 ### Basic Usage Example
 
 ```haxe
-import hxgamejolt.GameJolt; // be sure you import this.
+import hxgamejolt.GameJolt;
 
 GameJolt.init('game id', 'private key');
+
+// Basic API
 
 GameJolt.authUser('user name', 'user token', {
 	onSucceed: function(data:Dynamic):Void
@@ -31,7 +33,7 @@ GameJolt.authUser('user name', 'user token', {
 	{
 		trace(message);
 	}
-});
+}).requestData();
 
 GameJolt.fetchUser('user name', [], {
 	onSucceed: function(data:Dynamic):Void
@@ -39,6 +41,34 @@ GameJolt.fetchUser('user name', [], {
 		// your code
 	},
 	onFail: function(message:String):Void
+	{
+		trace(message);
+	}
+}).requestData();
+
+// Batch Requests
+
+final addTrophyResponse:EmptyResponseCallbacks = {
+	onSucceed: function():Void
+	{
+		// your code
+	},
+	onFail: function(message:String):Void
+	{
+		trace(message);
+	}
+};
+
+final addTrophyRequest0:GameJoltHttp = GameJolt.addTrophy('user name', 'user token', 0, addTrophyResponse);
+final addTrophyRequest1:GameJoltHttp = GameJolt.addTrophy('user name', 'user token', 0, addTrophyResponse);
+final addTrophyRequest2:GameJoltHttp = GameJolt.addTrophy('user name', 'user token', 0, addTrophyResponse);
+
+GameJolt.batchRequest([addTrophyRequest0, addTrophyRequest1, addTrophyRequest2], {
+	onSucceed: function():Void
+	{
+		// your code
+	},
+	onFail: function(msg:String):Void
 	{
 		trace(message);
 	}

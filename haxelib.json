@@ -7,8 +7,8 @@
 		"gamejolt"
 	],
 	"description": "Haxe bindings for GameJolt API.",
-	"version": "1.3.0",
-	"releasenote": "Rewritten the code and fixed some issues.",
+	"version": "1.4.0",
+	"releasenote": "Implemented Batch requests and rewritten some of the API to allow batching to work properly.",
 	"contributors": [
 		"MAJigsaw77"
 	]
