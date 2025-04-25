@@ -50,7 +50,7 @@ class User
 	public final lastLoggedInTimestamp:Int;
 
 	/** The status of the user. */
-	public final status:String;
+	public final status:UserStatus;
 
 	/** The user's display name. */
 	public final developerName:String;

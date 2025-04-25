@@ -83,36 +83,33 @@ class GameJoltHttp
 		{
 			if (urlRequestHttp != null)
 			{
-				final responseURL:Null<String> = urlRequestHttp.responseHeaders.get('Location');
-
-				if (responseURL != null && (status >= 300 && status < 400))
+				if (status >= 300 && status < 400)
 				{
-					urlRequestHttp.url = responseURL;
+					final responseURL:Null<String> = urlRequestHttp.responseHeaders.get('Location');
 
-					#if !HXGAMEJOLT_NO_THREADING
-					MainLoop.addThread(function():Void
+					if (responseURL != null && responseURL.length > 0)
 					{
-						if (urlRequestHttp != null)
-							urlRequestHttp.request();
-					});
-					#else
-					urlRequestHttp.request();
-					#end
+						urlRequestHttp.url = responseURL;
+
+						#if !HXGAMEJOLT_NO_THREADING
+						MainLoop.addThread(function():Void
+						{
+							if (urlRequestHttp != null)
+								urlRequestHttp.request();
+						});
+						#else
+						urlRequestHttp.request();
+						#end
+					}
+					else
+						dispatchFail('Redirect location header missing');
 				}
-				else if (status >= 300 && status < 400)
-					dispatchFail('Redirect location header missing');
 			}
 		}
 
-		urlRequestHttp.onData = function(data:String):Void
-		{
-			dispatchData(Json.parse(data).response);
-		}
+		urlRequestHttp.onData = (data:String) -> dispatchData(Json.parse(data).response);
 
-		urlRequestHttp.onError = function(message:String):Void
-		{
-			dispatchFail(message);
-		}
+		urlRequestHttp.onError = (message:String) -> dispatchFail(message);
 
 		#if !HXGAMEJOLT_NO_THREADING
 		MainLoop.addThread(function():Void
