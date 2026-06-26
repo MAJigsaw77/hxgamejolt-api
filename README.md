@@ -25,7 +25,7 @@ GameJolt.init('game id', 'private key');
 // Basic API
 
 GameJolt.authUser('user name', 'user token', {
-	onSucceed: function(data:Dynamic):Void
+	onSucceed: function():Void
 	{
 		// your code
 	},
@@ -36,7 +36,7 @@ GameJolt.authUser('user name', 'user token', {
 }).requestData();
 
 GameJolt.fetchUser('user name', [], {
-	onSucceed: function(data:Dynamic):Void
+	onSucceed: function():Void
 	{
 		// your code
 	},
