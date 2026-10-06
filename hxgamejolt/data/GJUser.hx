@@ -3,7 +3,7 @@ package hxgamejolt.data;
 /**
  * The type of the user.
  */
-enum abstract UserType(String) from String to String
+enum abstract GJUserType(String) from String to String
 {
 	var User = 'User';
 	var Developer = 'Developer';
@@ -14,7 +14,7 @@ enum abstract UserType(String) from String to String
 /**
  * The status of the user.
  */
-enum abstract UserStatus(String) from String to String
+enum abstract GJUserStatus(String) from String to String
 {
 	var Active = 'Active';
 	var Banned = 'Banned';
@@ -23,13 +23,13 @@ enum abstract UserStatus(String) from String to String
 /**
  * A user object from the GameJolt API.
  */
-class User
+class GJUser
 {
 	/** The ID of the user. */
 	public final id:Int;
 
 	/** The type of user. */
-	public final type:UserType;
+	public final type:GJUserType;
 
 	/** The user's username. */
 	public final userName:String;
@@ -50,7 +50,7 @@ class User
 	public final lastLoggedInTimestamp:Int;
 
 	/** The status of the user. */
-	public final status:UserStatus;
+	public final status:GJUserStatus;
 
 	/** The user's display name. */
 	public final developerName:String;

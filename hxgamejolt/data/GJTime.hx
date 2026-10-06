@@ -3,7 +3,7 @@ package hxgamejolt.data;
 /**
  * A time object from the GameJolt API.
  */
-class Time
+class GJTime
 {
 	/** The UNIX time stamp (in seconds) representing the server's time. */
 	public final timestamp:Int;

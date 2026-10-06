@@ -5,7 +5,7 @@ import hxgamejolt.util.OneOfTwo;
 /**
  * The difficulty level of the trophy.
  */
-enum abstract TrophyDifficulty(String) from String to String
+enum abstract GJTrophyDifficulty(String) from String to String
 {
 	var Bronze = 'Bronze';
 	var Silver = 'Silver';
@@ -16,7 +16,7 @@ enum abstract TrophyDifficulty(String) from String to String
 /**
  * A trophy object from the GameJolt API.
  */
-class Trophy
+class GJTrophy
 {
 	/** The ID of the trophy. */
 	public final id:Int;
@@ -28,7 +28,7 @@ class Trophy
 	public final description:String;
 
 	/** The difficulty level of the trophy. */
-	public final difficulty:TrophyDifficulty;
+	public final difficulty:GJTrophyDifficulty;
 
 	/** The URL of the trophy's thumbnail image. */
 	public final imageUrl:String;

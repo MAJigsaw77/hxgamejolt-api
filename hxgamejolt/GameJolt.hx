@@ -1,18 +1,18 @@
 package hxgamejolt;
 
-import hxgamejolt.data.Friend;
-import hxgamejolt.data.Score;
-import hxgamejolt.data.Table;
-import hxgamejolt.data.Time;
-import hxgamejolt.data.Trophy;
-import hxgamejolt.data.User;
+import hxgamejolt.data.GJFriend;
+import hxgamejolt.data.GJScore;
+import hxgamejolt.data.GJTable;
+import hxgamejolt.data.GJTime;
+import hxgamejolt.data.GJTrophy;
+import hxgamejolt.data.GJUser;
 import hxgamejolt.util.GameJoltHttp;
 import hxgamejolt.util.OneOfTwo;
 
 /**
  * Callbacks for handling responses without a return value.
  */
-typedef EmptyResponseCallbacks =
+typedef GameJoltEmptyCallback =
 {
 	/** Called when the request succeeds. */
 	var onSucceed:Void->Void;
@@ -26,7 +26,7 @@ typedef EmptyResponseCallbacks =
  *
  * @param T The expected type of the successful response data.
  */
-typedef TypeResponseCallbacks<T> =
+typedef GameJoltTypeCallback<T> =
 {
 	/** Called when the request succeeds, passing the response data of type `T`. */
 	var onSucceed:T->Void;
@@ -38,7 +38,7 @@ typedef TypeResponseCallbacks<T> =
 /**
  * The status of the session.
  */
-enum Status
+enum GJStatus
 {
 	/**
 	 * Sets the session to the `active` state.
@@ -88,7 +88,7 @@ class GameJolt
 	 * @param Response The callback object containing callbacks.
 	 * @return The configured HTTP request.
 	 */
-	public static function fetchUser(UserName:String, UserID:Array<Int>, ?Response:TypeResponseCallbacks<Array<User>>):GameJoltHttp
+	public static function fetchUser(UserName:String, UserID:Array<Int>, ?Response:GameJoltTypeCallback<Array<GJUser>>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -119,7 +119,7 @@ class GameJolt
 						{
 							case TClass(Array):
 								if (Response.onSucceed != null)
-									Response.onSucceed([for (data in (data.users : Array<Dynamic>)) new User(data)]);
+									Response.onSucceed([for (data in (data.users : Array<Dynamic>)) new GJUser(data)]);
 							default:
 								if (Response.onSucceed != null)
 									Response.onSucceed([]);
@@ -154,7 +154,7 @@ class GameJolt
 	 * @param Response The callback object containing callbacks.
 	 * @return The configured HTTP request.
 	 */
-	public static function authUser(UserName:String, UserToken:String, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function authUser(UserName:String, UserToken:String, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -195,7 +195,7 @@ class GameJolt
 	 * @param Response The callback object containing callbacks.
 	 * @return The configured HTTP request.
 	 */
-	public static function openSessions(UserName:String, UserToken:String, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function openSessions(UserName:String, UserToken:String, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -239,7 +239,7 @@ class GameJolt
 	 * @param Response The callback object containing callbacks.
 	 * @return The configured HTTP request.
 	 */
-	public static function pingSessions(UserName:String, UserToken:String, ?Status:Null<Status>, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function pingSessions(UserName:String, UserToken:String, ?Status:Null<GJStatus>, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -285,7 +285,7 @@ class GameJolt
 	 * @param Response The callback object containing callbacks.
 	 * @return The configured HTTP request.
 	 */
-	public static function checkSessions(UserName:String, UserToken:String, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function checkSessions(UserName:String, UserToken:String, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -324,7 +324,7 @@ class GameJolt
 	 * @param Response The callback object containing callbacks.
 	 * @return The configured HTTP request.
 	 */
-	public static function closeSessions(UserName:String, UserToken:String, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function closeSessions(UserName:String, UserToken:String, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -369,7 +369,7 @@ class GameJolt
 	 * @return The configured HTTP request.
 	 */
 	public static function addScore(?UserName:String, ?UserToken:String, ?Guest:String, Score:String, Sort:Int, ?ExtraData:String, ?TableID:Int,
-			?Response:EmptyResponseCallbacks):GameJoltHttp
+			?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -424,7 +424,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function getScoreRank(Sort:Int, ?TableID:Int, ?Response:TypeResponseCallbacks<Int>):GameJoltHttp
+	public static function getScoreRank(Sort:Int, ?TableID:Int, ?Response:GameJoltTypeCallback<Int>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -474,7 +474,7 @@ class GameJolt
 	 * @return The configured HTTP request.
 	 */
 	public static function fetchScore(?Limit:Int = 10, ?TableID:Int, ?UserName:String, ?UserToken:String, ?Guest:String, ?BetterThan:Int, ?WorseThan:Int,
-			?Response:TypeResponseCallbacks<Array<Score>>):GameJoltHttp
+			?Response:GameJoltTypeCallback<Array<GJScore>>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -519,7 +519,7 @@ class GameJolt
 						{
 							case TClass(Array):
 								if (Response.onSucceed != null)
-									Response.onSucceed([for (data in (data.scores : Array<Dynamic>)) new Score(data)]);
+									Response.onSucceed([for (data in (data.scores : Array<Dynamic>)) new GJScore(data)]);
 							default:
 								if (Response.onSucceed != null)
 									Response.onSucceed([]);
@@ -550,7 +550,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function scoreTables(?Response:TypeResponseCallbacks<Array<Table>>):GameJoltHttp
+	public static function scoreTables(?Response:GameJoltTypeCallback<Array<GJTable>>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -574,7 +574,7 @@ class GameJolt
 						{
 							case TClass(Array):
 								if (Response.onSucceed != null)
-									Response.onSucceed([for (data in (data.tables : Array<Dynamic>)) new Table(data)]);
+									Response.onSucceed([for (data in (data.tables : Array<Dynamic>)) new GJTable(data)]);
 							default:
 								if (Response.onSucceed != null)
 									Response.onSucceed([]);
@@ -610,7 +610,7 @@ class GameJolt
 	 * @return The configured HTTP request.
 	 */
 	public static function fetchTrophy(UserName:String, UserToken:String, ?Achieved:Null<Bool>, ?TrophyID:Array<Int>,
-			?Response:TypeResponseCallbacks<Array<Trophy>>):GameJoltHttp
+			?Response:GameJoltTypeCallback<Array<GJTrophy>>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -641,7 +641,7 @@ class GameJolt
 						{
 							case TClass(Array):
 								if (Response.onSucceed != null)
-									Response.onSucceed([for (data in (data.trophies : Array<Dynamic>)) new Trophy(data)]);
+									Response.onSucceed([for (data in (data.trophies : Array<Dynamic>)) new GJTrophy(data)]);
 							default:
 								if (Response.onSucceed != null)
 									Response.onSucceed([]);
@@ -675,7 +675,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function addTrophy(UserName:String, UserToken:String, TrophyID:Int, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function addTrophy(UserName:String, UserToken:String, TrophyID:Int, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -720,7 +720,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function removeTrophy(UserName:String, UserToken:String, TrophyID:Int, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function removeTrophy(UserName:String, UserToken:String, TrophyID:Int, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -765,7 +765,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?UserToken:String, ?Response:TypeResponseCallbacks<String>):GameJoltHttp
+	public static function fetchDataFromDataStore(Key:String, ?UserName:String, ?UserToken:String, ?Response:GameJoltTypeCallback<String>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -813,7 +813,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?UserToken:String, ?Response:TypeResponseCallbacks<Array<String>>):GameJoltHttp
+	public static function getDataStoreKeys(?Pattern:String, ?UserName:String, ?UserToken:String, ?Response:GameJoltTypeCallback<Array<String>>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -882,7 +882,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?UserToken:String, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function removeDataFromDataStore(Key:String, ?UserName:String, ?UserToken:String, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -931,7 +931,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?UserToken:String, ?Response:EmptyResponseCallbacks):GameJoltHttp
+	public static function setDataToDataStore(Key:String, Data:String, ?UserName:String, ?UserToken:String, ?Response:GameJoltEmptyCallback):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -982,7 +982,7 @@ class GameJolt
 	 * @return The configured HTTP request.
 	 */
 	public static function updateDataFromDataStore(Key:String, Operation:String, Value:OneOfTwo<String, Int>, ?UserName:String, ?UserToken:String,
-			?Response:TypeResponseCallbacks<OneOfTwo<String, Int>>):GameJoltHttp
+			?Response:GameJoltTypeCallback<OneOfTwo<String, Int>>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -1029,7 +1029,7 @@ class GameJolt
 	 * @param Response The callback object containing callbacks.
 	 * @return The configured HTTP request.
 	 */
-	public static function fetchFriends(UserName:String, UserToken:String, ?Response:TypeResponseCallbacks<Array<Friend>>):GameJoltHttp
+	public static function fetchFriends(UserName:String, UserToken:String, ?Response:GameJoltTypeCallback<Array<GJFriend>>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -1053,7 +1053,7 @@ class GameJolt
 						{
 							case TClass(Array):
 								if (Response.onSucceed != null)
-									Response.onSucceed([for (data in (data.friends : Array<Dynamic>)) new Friend(data)]);
+									Response.onSucceed([for (data in (data.friends : Array<Dynamic>)) new GJFriend(data)]);
 							default:
 								if (Response.onSucceed != null)
 									Response.onSucceed([]);
@@ -1084,7 +1084,7 @@ class GameJolt
 	 * @param Response The response callbacks for success and failure cases.
 	 * @return The configured HTTP request.
 	 */
-	public static function fetchTime(?Response:TypeResponseCallbacks<Time>):GameJoltHttp
+	public static function fetchTime(?Response:GameJoltTypeCallback<GJTime>):GameJoltHttp
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{
@@ -1101,7 +1101,7 @@ class GameJolt
 			gjHttp.onSucceed = function(data:Dynamic):Void
 			{
 				if (Response.onSucceed != null)
-					Response.onSucceed(new Time(data));
+					Response.onSucceed(new GJTime(data));
 			};
 
 			gjHttp.onFail = function(message:String):Void
@@ -1123,7 +1123,7 @@ class GameJolt
 	 * @param Requests An array of sub-request. Each request will be executed and the responses of each one will be returned in the payload.
 	 * @param Response The response callbacks for success and failure cases.
 	 */
-	public static function batchRequest(?Parallel:Bool, ?BreakOnError:Bool, Requests:Array<GameJoltHttp>, ?Response:EmptyResponseCallbacks):Void
+	public static function batchRequest(?Parallel:Bool, ?BreakOnError:Bool, Requests:Array<GameJoltHttp>, ?Response:GameJoltEmptyCallback):Void
 	{
 		if ((game_id == null || game_id.length == 0) || (private_key == null || private_key.length == 0))
 		{

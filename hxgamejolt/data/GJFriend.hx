@@ -3,7 +3,7 @@ package hxgamejolt.data;
 /**
  * A friend object from the GameJolt API.
  */
-class Friend
+class GJFriend
 {
 	/** The friend's user ID. */
 	public final friendId:Int;
