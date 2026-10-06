@@ -3,7 +3,7 @@ package hxgamejolt.data;
 /**
  * A score table object from the GameJolt API.
  */
-class Table
+class GJTable
 {
 	/** The ID of the score table. */
 	public final id:Int;

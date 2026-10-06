@@ -3,7 +3,7 @@ package hxgamejolt.data;
 /**
  * A score object from the GameJolt API.
  */
-class Score
+class GJScore
 {
 	/** The score. */
 	public final score:String;
