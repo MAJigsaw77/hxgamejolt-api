@@ -48,7 +48,7 @@ GameJolt.fetchUser('user name', [], {
 
 // Batch Requests
 
-final addTrophyResponse:EmptyResponseCallbacks = {
+final addTrophyResponse:GameJoltEmptyCallback = {
 	onSucceed: function():Void
 	{
 		// your code
