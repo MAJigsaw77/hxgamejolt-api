@@ -17,6 +17,12 @@ haxelib git hxgamejolt-api https://github.com/MAJigsaw77/hxgamejolt-api.git
 
 ### Basic Usage Example
 
+> [!WARNING]
+> Any function that returns **GameJoltHttp** takes some time before it finishes
+> e.g. `authUser()` or `openSession()`, so avoid writing any followup after it
+> without it being passed onto an `onSucceed` function or a
+> timer delayed function such as `haxe.Timer()` (or something similar)
+
 ```haxe
 import hxgamejolt.GameJolt;
 
@@ -48,7 +54,7 @@ GameJolt.fetchUser('user name', [], {
 
 // Batch Requests
 
-final addTrophyResponse:EmptyResponseCallbacks = {
+final addTrophyResponse:GameJoltEmptyCallback = {
 	onSucceed: function():Void
 	{
 		// your code
