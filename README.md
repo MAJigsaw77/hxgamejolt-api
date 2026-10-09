@@ -16,6 +16,7 @@ haxelib git hxgamejolt-api https://github.com/MAJigsaw77/hxgamejolt-api.git
 ```
 
 ### Basic Usage Example
+Samples on different engines can be found inside [examples](https://github.com/MAJigsaw77/hxgamejolt-api/samples/flixel/SetupHTML5Auto).
 
 > [!WARNING]
 > Any function that returns **GameJoltHttp** takes some time before it finishes
